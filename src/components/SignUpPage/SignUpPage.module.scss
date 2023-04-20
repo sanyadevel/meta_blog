@@ -1,0 +1,92 @@
+$white-color: #ffffff;
+$input-start-color: #d9d9d9;
+$daybreak-blue-color: #1890ff;
+$daybreak-blue-color-hover: #41a2ff;
+$gray-color: rgb(161, 161, 161);
+
+.container {
+  width: 500px;
+  height: 780px;
+  background-color: $white-color;
+  display: block;
+  margin: 120px auto 0 auto;
+  border-radius: 6px;
+  -webkit-box-shadow: 4px 0px 25px 0px rgba(168,168,168,1);
+  -moz-box-shadow: 4px 0px 25px 0px rgba(168,168,168,1);
+  box-shadow: 4px 0px 25px 0px rgba(168,168,168,1);
+}
+
+.title {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
+  color: #262626;
+  padding-top: 60px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.label {
+  display: inline-block;
+  width: 84%;
+  text-align: left;
+  font-size: 19px;
+  font-family: "Roboto", sans-serif;
+}
+
+.input {
+  width: 420px;
+  height: 50px;
+  margin: 8px 0 18px 0;
+  border: 1px solid $input-start-color;
+  border-radius: 4px;
+  padding-left: 12px;
+  font-size: 19px;
+}
+
+.submitButton {
+  background-color: $daybreak-blue-color;
+  cursor: pointer;
+  margin-top: 40px;
+  color: $white-color;
+
+  &:hover {
+    background-color: $daybreak-blue-color-hover;
+  }
+}
+
+.brakeLine {
+  width: 420px;
+  height: 1px;
+  background-color: #d9d9d9;
+  margin: 20px 0 40px 0;
+}
+
+.agreeStatement {
+  display: flex;
+  justify-content: space-around;
+}
+
+.alreadyHaveAccount {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  text-align: center;
+  color: $gray-color;
+  margin-top: 3px;
+
+  &__link {
+    text-decoration: none;
+    color: $daybreak-blue-color;
+    margin-left: 5px;
+  }
+}

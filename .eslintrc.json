@@ -1,0 +1,96 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-typescript",
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "ignorePatterns": ["styles.d.ts", "global.d.ts", "tsconfig.json"],
+  "rules": {
+    "@typescript-eslint/quotes": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-unused-vars": [
+      "error",
+      { "varsIgnorePattern": ".*", "argsIgnorePattern": ".*" }
+    ],
+    "react/static-property-placement": "off",
+    "operator-linebreak": "off",
+    "object-curly-newline": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-wrap-multilines": "off",
+    "no-useless-constructor": "off",
+    "react/sort-comp": "off",
+    "eslint import/no-cycle": "off",
+    "indent": "off",
+    "no-shadow": "off",
+    "linebreak-style": 0,
+    "no-tabs": "off",
+    "no-alert": "off",
+    "quotes": ["error", "single"],
+    "no-var": "error",
+    "jsx-a11y/control-has-associated-label": [
+      2,
+      {
+        "labelAttributes": ["label"],
+        "controlComponents": ["CustomComponent"],
+        "ignoreElements": [
+          "audio",
+          "canvas",
+          "embed",
+          "input",
+          "textarea",
+          "tr",
+          "video"
+        ],
+        "ignoreRoles": [
+          "grid",
+          "listbox",
+          "menu",
+          "menubar",
+          "radiogroup",
+          "row",
+          "tablist",
+          "toolbar",
+          "tree",
+          "treegrid"
+        ],
+        "depth": 3
+      }
+    ],
+    "jsx-a11y/no-autofocus": [
+      2,
+      {
+        "ignoreNonDOM": true
+      }
+    ],
+    "semi": ["error", "always"],
+    "react/prop-types": 0,
+    "import/no-unresolved": [
+      2,
+      {
+        "caseSensitive": false
+      }
+    ],
+    "import/order": [
+      2,
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always"
+      }
+    ]
+  }
+}
+
