@@ -1,0 +1,64 @@
+$container-white-color: #fff;
+$title-color: rgba(24, 144, 255, 1);
+$black-color: rgba(0, 0, 0, 0.5);
+
+* {
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.container {
+  width: 60%;
+  height: 160px;
+  margin: 26px auto;
+  background-color: $container-white-color;
+  padding: 25px 23px;
+  display: flex;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 400;
+  color: $title-color;
+  margin: 0;
+  padding: 0;
+  line-height: 28px;
+}
+.header {
+  display: flex;
+  align-items: center;
+}
+.likeBtn {
+  width: 25px;
+  margin: 3px 10px 0 25px;
+}
+.tags {
+  margin: 12px 0 12px 0;
+}
+.tag {
+  border: 1px solid $black-color;
+  padding: 3px 5px;
+  border-radius: 2px;
+  margin-right: 9px;
+}
+.legend {
+  width: 270px;
+}
+
+.personName {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.birthDate {
+  display: inline-block;
+}
+.personAvatar {
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
+}

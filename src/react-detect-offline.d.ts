@@ -16,6 +16,7 @@ declare module 'react-detect-offline' {
       url?: string;
       interval?: number;
       timeout?: number;
+      activeColor?:string;
     };
   }
 

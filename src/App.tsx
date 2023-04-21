@@ -7,6 +7,7 @@ import Header from './components/Header';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import appStyles from './App.module.scss';
+import ArticleList from './components/ArticleList';
 
 const App: FC = () => {
   return (
@@ -15,6 +16,8 @@ const App: FC = () => {
           <Router>
             <Header />
             <Routes>
+              <Route path='/' element={<ArticleList/>} />
+              <Route path="/articles" element={<ArticleList/>} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<SignUpPage />} />
             </Routes>
