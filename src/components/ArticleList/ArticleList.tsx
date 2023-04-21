@@ -51,10 +51,6 @@ const ArticlesList:FC<IArticle> = () => {
       {data?.articles.map((article: IArticle) => (
         <Article key={article.slug} {...article}/>
       ))}
-      {/*title={article.title} description={article.description} body=*/}
-      {/*{article.body} taglist={article.taglist} createdAt={article.createdAt}{" "}*/}
-      {/*updatedAt={article.updatedAt} favorited={article.favorited}{" "}*/}
-      {/*favoritesCount={article.favoritesCount} author={article.author}*/}
       <Pagination
         defaultCurrent={1}
         total={50}
