@@ -10,20 +10,20 @@ import appStyles from './App.module.scss';
 
 const App: FC = () => {
   return (
-    <div className={appStyles.container}>
-      <Online>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<SignUpPage />} />
-          </Routes>
-        </Router>
-      </Online>
-      <Offline>
-        <NoInternetConnection />
-      </Offline>
-    </div>
+      <div className={appStyles.container}>
+        <Online>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<SignUpPage />} />
+            </Routes>
+          </Router>
+        </Online>
+        <Offline>
+          <NoInternetConnection />
+        </Offline>
+      </div>
   );
 };
 

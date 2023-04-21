@@ -22,8 +22,8 @@ const SignUpPage: FC = () => {
         <input type="text" className={signUpPageStyles.input} placeholder='Repeat Password'/>
         <span className={signUpPageStyles.brakeLine} />
         <div className={signUpPageStyles.agreeStatement}>
-          <input type="checkbox" />
-          <label className={signUpPageStyles.label}>
+          <input type="checkbox" id='agree'/>
+          <label className={signUpPageStyles.label} htmlFor='agree'>
             I agree to the processing of my personal information
           </label>
         </div>

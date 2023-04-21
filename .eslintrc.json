@@ -10,6 +10,16 @@
   },
   "ignorePatterns": ["styles.d.ts", "global.d.ts", "tsconfig.json"],
   "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "src/App.tsx",
+          "src/reducers/rootReducer.ts",
+          "src/store/store.ts"
+        ]
+      }
+    ],
     "@typescript-eslint/quotes": "off",
     "import/prefer-default-export": "off",
     "react/jsx-uses-react": "off",
