@@ -8,13 +8,17 @@ $black-color: rgba(0, 0, 0, 0.5);
   padding: 0;
   margin: 0;
 }
+
 .container {
   width: 60%;
   height: 160px;
-  margin: 26px auto;
+  margin: 28px auto;
   background-color: $container-white-color;
-  padding: 25px 23px;
+  padding: 20px 23px;
   display: flex;
+}
+.main{
+  width:78%
 }
 
 .title {
@@ -24,17 +28,25 @@ $black-color: rgba(0, 0, 0, 0.5);
   margin: 0;
   padding: 0;
   line-height: 28px;
+  width: 900px;
 }
+
 .header {
   display: flex;
   align-items: center;
 }
+
 .likeBtn {
   width: 25px;
-  margin: 3px 10px 0 25px;
+  margin: 3px 10px 0 30px;
 }
+
 .tags {
   margin: 12px 0 12px 0;
+}
+
+.description{
+  width: 900px;
 }
 .tag {
   border: 1px solid $black-color;
@@ -42,8 +54,10 @@ $black-color: rgba(0, 0, 0, 0.5);
   border-radius: 2px;
   margin-right: 9px;
 }
+
 .legend {
-  width: 270px;
+  width: 22%;
+  display: flex;
 }
 
 .personName {
@@ -53,12 +67,16 @@ $black-color: rgba(0, 0, 0, 0.5);
   font-size: 22px;
   line-height: 28px;
 }
-
+.personInfo{
+  width:170px;
+}
 .birthDate {
   display: inline-block;
 }
+
 .personAvatar {
   height: 56px;
   width: 56px;
   border-radius: 50%;
+  margin-left: 30px;
 }
