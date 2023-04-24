@@ -3,17 +3,21 @@ $input-start-color: #d9d9d9;
 $daybreak-blue-color: #1890ff;
 $daybreak-blue-color-hover: #41a2ff;
 $gray-color: rgb(161, 161, 161);
+$input-error-color: rgba(245, 34, 45, 1);
+
+.main {
+  padding-bottom: 300px;
+}
 
 .container {
   width: 500px;
-  height: 780px;
   background-color: $white-color;
   display: block;
   margin: 120px auto 0 auto;
   border-radius: 6px;
-  -webkit-box-shadow: 4px 0px 25px 0px rgba(168,168,168,1);
-  -moz-box-shadow: 4px 0px 25px 0px rgba(168,168,168,1);
-  box-shadow: 4px 0px 25px 0px rgba(168,168,168,1);
+  -webkit-box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+  -moz-box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+  box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
 }
 
 .title {
@@ -31,7 +35,7 @@ $gray-color: rgb(161, 161, 161);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 40px;
+  padding: 40px 0 20px 0;
 }
 
 .label {
@@ -40,16 +44,41 @@ $gray-color: rgb(161, 161, 161);
   text-align: left;
   font-size: 19px;
   font-family: "Roboto", sans-serif;
+  margin-top: 5px;
+}
+
+.label:not(:first-child) {
+  margin-top: 15px;
 }
 
 .input {
   width: 420px;
   height: 50px;
-  margin: 8px 0 18px 0;
+  margin: 10px 0 18px 0;
   border: 1px solid $input-start-color;
   border-radius: 4px;
   padding-left: 12px;
   font-size: 19px;
+}
+.inputError {
+  width: 420px;
+  height: 50px;
+  margin: 8px 0 18px 0;
+  border: 1px solid $input-error-color;
+  border-radius: 4px;
+  padding-left: 12px;
+  font-size: 19px;
+}
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.inputErrorTextLabel {
+  color: $input-error-color;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
 }
 
 .submitButton {

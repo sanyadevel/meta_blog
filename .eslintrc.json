@@ -10,6 +10,7 @@
   },
   "ignorePatterns": ["styles.d.ts", "global.d.ts", "tsconfig.json"],
   "rules": {
+    "@typescript-eslint/ban-ts-ignore": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
@@ -103,4 +104,3 @@
     ]
   }
 }
-

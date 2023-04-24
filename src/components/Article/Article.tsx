@@ -7,8 +7,8 @@ import { formatDate } from '../../logics/formateDate';
 import articleStyles from './Article.module.scss';
 
 const Article: FC<IArticle> = ({ title, tagList, description, author, createdAt }) => {
-  const [active, setActive] = useState(false);
-  console.log(tagList);
+  const [active, setActive] = useState<boolean>(false);
+
   return (
     <>
       <div className={articleStyles.container}>
@@ -49,4 +49,4 @@ const Article: FC<IArticle> = ({ title, tagList, description, author, createdAt 
   );
 };
 
-export default Article;
+export default React.memo(Article);

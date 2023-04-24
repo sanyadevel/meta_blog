@@ -8,6 +8,7 @@ import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import appStyles from './App.module.scss';
 import ArticleList from './components/ArticleList';
+import PageIsNotFound from './components/PageIsNotFound';
 
 const App: FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: FC = () => {
               <Route path="/articles" element={<ArticleList/>} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<SignUpPage />} />
+              <Route path="*" element={<PageIsNotFound/>} />
             </Routes>
           </Router>
         </Online>

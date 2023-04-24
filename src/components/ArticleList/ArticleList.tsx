@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
-import { SpinnerInfinity } from 'spinners-react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { Pagination } from 'antd';
 
-import { useGetArticlesQuery } from '../../slices/apiSlice';
+import { useGetArticlesQuery } from '../../logics/rtkQueryLogics/getArticlesFromApi';
 import Article from '../Article';
+import { AppDispatch, useAppDispatch, useAppSelector } from '../../store';
+import { changeArticlePage, getTotalCountPages } from '../../slices/articleSlice';
+import Loader from '../Loader';
 
 export interface IArticle {
   slug?: string;
@@ -23,39 +25,54 @@ export interface IArticle {
   };
 }
 
-const ArticlesList:FC<IArticle> = () => {
+const ArticlesList: FC<IArticle> = () => {
+  const dispatch: AppDispatch = useAppDispatch();
+
+  const totalCountPages = useAppSelector(state=>state.article.totalCountPages);
+
+  const currentPage: number | undefined = useAppSelector(
+    (state) => state.article.currentPage,
+  ); // get current page from store
+
   const { data, error, isLoading } = useGetArticlesQuery({
     limit: 10,
-    offset: 0,
+    page: currentPage,
   });
 
-  if (isLoading)
-    return (
-      <SpinnerInfinity
-        size="120px"
-        thickness={134}
-        speed={159}
-        color="rgba(24, 144, 255, 1)"
-        secondaryColor="rgba(57, 121, 172, 1)"
-        style={{ display: 'block', margin: '50px auto 0 auto' }}
-      />
-    );
+  const memoizedPageCount = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return data?.articlesCount;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+  }, [data?.articlesCount]);
+
+  useEffect(() => {
+    if (memoizedPageCount !== undefined) {
+      dispatch(getTotalCountPages(memoizedPageCount));
+    }
+  }, [dispatch, memoizedPageCount]);
+
+
+  if (isLoading) return <Loader />;
   if (error) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error?.message}</div>;
   }
 
   return (
     <div>
       {data?.articles.map((article: IArticle) => (
-        <Article key={article.slug} {...article}/>
+        <Article key={article.slug} {...article} />
       ))}
       <Pagination
         defaultCurrent={1}
-        total={50}
+        total={totalCountPages * 10}
         size="default"
         style={{ textAlign: 'center', marginTop: 40, paddingBottom: 40 }}
+        showSizeChanger={false}
+        onChange={(page: number) => dispatch(changeArticlePage(page))} // поднимаем в стейт номер страницы
       />
     </div>
   );
