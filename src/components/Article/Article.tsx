@@ -6,7 +6,13 @@ import { formatDate } from '../../logics/formateDate';
 
 import articleStyles from './Article.module.scss';
 
-const Article: FC<IArticle> = ({ title, tagList, description, author, createdAt }) => {
+const Article: FC<IArticle> = ({
+  title,
+  tagList,
+  description,
+  author,
+  createdAt,
+}) => {
   const [active, setActive] = useState<boolean>(false);
 
   return (
@@ -34,15 +40,21 @@ const Article: FC<IArticle> = ({ title, tagList, description, author, createdAt 
             ))}
           </div>
           <p className={articleStyles.description}>
-            {description?.split(' ').slice(0, 29).join(' ')}
+            {description?.split(' ').slice(0, 28).join(' ')}
           </p>
         </main>
         <legend className={articleStyles.legend}>
           <div className={articleStyles.personInfo}>
             <span className={articleStyles.personName}>{author?.username}</span>
-            <span className={articleStyles.birthDate}>{formatDate(createdAt)}</span>
+            <span className={articleStyles.birthDate}>
+              {formatDate(createdAt)}
+            </span>
           </div>
-          <img src={author?.image} alt="avatar" className={articleStyles.personAvatar} />
+          <img
+            src={author?.image}
+            alt="avatar"
+            className={articleStyles.personAvatar}
+          />
         </legend>
       </div>
     </>
