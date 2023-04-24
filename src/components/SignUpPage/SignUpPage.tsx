@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { useValidation } from '../../hooks/useValidation';
+import { emailRegex } from '../../variables/emailRegex';
 
 import signUpPageStyles from './SignUpPage.module.scss';
 
@@ -12,33 +12,35 @@ const SignUpPage: FC = () => {
   const schema = yup
     .object({
       userName: yup.string().min(3).max(20).required(),
-      email: yup.string().min(6).max(25).required(),
-      password: yup.string().required('Password is required'),
+      email: yup.string().min(11).max(40).required().test(
+        'is-valid-email',
+        'Please enter a valid email address',
+        (value) => {
+          return emailRegex.test(value);
+        },
+      ),
+      password: yup.string().min(6).max(35).required('Password is required'),
       passwordConfirmation: yup
         .string()
         .oneOf([yup.ref('password'), undefined], 'Passwords must match'),
     })
     .required();
 
-  const formMethods = useForm<FormData>({
-    resolver: yupResolver(schema),
-  });
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = formMethods;
-  const onSubmit = (data: FormData) => console.log(data);
+    reset,
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+    mode: 'onBlur',
+  });
 
   type FormData = yup.InferType<typeof schema>;
 
-  const { validateField } = useValidation(formMethods);
-  const password = watch('password');
-  const onBlurInputs = (e: React.FocusEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    validateField(name, value);
+  const submitRegistrationDatas = (data: FormData) => {
+    console.log(data);
+    reset();
   };
 
   return (
@@ -46,75 +48,95 @@ const SignUpPage: FC = () => {
       <div className={signUpPageStyles.container}>
         <h2 className={signUpPageStyles.title}>Create new account</h2>
 
-        <form
-          className={signUpPageStyles.form}
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <form className={signUpPageStyles.form} onSubmit={handleSubmit(submitRegistrationDatas)}>
           <label className={signUpPageStyles.label}>Username</label>
           <div className={signUpPageStyles.inputWrapper}>
-          <input
-            type="text"
-            className={errors.userName ? signUpPageStyles.inputError : signUpPageStyles.input}
-            placeholder="some-username"
-            {...register('userName', { required: 'Username is required' })}
-            onBlur={onBlurInputs}
-          />
-          {errors.userName && (
-            <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-              Please enter a username with at least 3 characters
-            </p>
-          )}
+            <input
+              type="text"
+              className={
+                errors.userName
+                  ? signUpPageStyles.inputError
+                  : signUpPageStyles.input
+              }
+              placeholder="some-username"
+              {...register('userName', { required: 'Username is required', minLength:{
+                value: 3,
+                message: 'Username needs to be more than 3 characters',
+              } })}
+            />
+            {errors.userName && (
+              <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
+                Username {errors?.userName?.message?.split(' ').slice(1).join(' ')}
+              </p>
+            )}
           </div>
 
           <label className={signUpPageStyles.label}>Email address</label>
           <div className={signUpPageStyles.inputWrapper}>
-          <input
-            type="text"
-            className={errors.email ? signUpPageStyles.inputError : signUpPageStyles.input}
-            placeholder="alex@example.com"
-            {...register('email', { required: 'Email is required' })}
-          />
-          {errors.email && (
-            <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-              Please enter a valid email address
-            </p>
-          )}
+            <input
+              type="text"
+              className={
+                errors.email
+                  ? signUpPageStyles.inputError
+                  : signUpPageStyles.input
+              }
+              placeholder="alex@example.com"
+              {...register('email', { required: 'Email is required', minLength:{
+                value: 6,
+                message: 'Email needs to be more than 6 characters',
+              }, maxLength:{
+                value: 40,
+                message: 'Enter a valid email adress',
+              },
+
+              })}
+            />
+            {errors.email && (
+              <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
+                Email {errors?.email?.message?.split(' ').slice(1).join(' ')}
+              </p>
+            )}
           </div>
 
           <label className={signUpPageStyles.label}>Password</label>
           <div className={signUpPageStyles.inputWrapper}>
-          <input
-            type="password"
-            className={errors.password ? signUpPageStyles.inputError : signUpPageStyles.input}
-            placeholder="Password"
-            {...register('password', { required: 'Password is required' })}
-            onBlur={onBlurInputs}
-          />
-          {errors.password && (
-            <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-              Your password needs to be at least 6 characters.
-            </p>
-          )}
+            <input
+              type="password"
+              className={
+                errors.password
+                  ? signUpPageStyles.inputError
+                  : signUpPageStyles.input
+              }
+              placeholder="Password"
+              {...register('password', { required: 'Password is required', minLength:{
+                value: 6,
+                message:'Your password needs to be at least 6 characters.',
+              } })}
+            />
+            {errors.password && (
+              <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
+                Password {errors?.password?.message?.split(' ').slice(1).join(' ')}
+              </p>
+            )}
           </div>
 
           <label className={signUpPageStyles.label}>Repeat Password</label>
           <div className={signUpPageStyles.inputWrapper}>
-          <input
-            type="password"
-            className={errors.passwordConfirmation ? signUpPageStyles.inputError : signUpPageStyles.input}
-            placeholder="Repeat Password"
-            {...register('passwordConfirmation', {
-              required: 'Passwords must match',
-              validate: (value: any) =>
-                value !== password || 'Passwords is not the same',
-            })}
-            onBlur={onBlurInputs}
-          />
-          {errors.passwordConfirmation && (
-            <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-              Passwords must be the same.
-            </p>
-          )}
+            <input
+              type="password"
+              className={
+                errors.passwordConfirmation
+                  ? signUpPageStyles.inputError
+                  : signUpPageStyles.input
+              }
+              placeholder="Repeat Password"
+              {...register('passwordConfirmation')}
+            />
+            {errors.passwordConfirmation && (
+              <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
+               {errors?.passwordConfirmation?.message}
+              </p>
+            )}
           </div>
           <span className={signUpPageStyles.brakeLine} />
           <div className={signUpPageStyles.agreeStatement}>

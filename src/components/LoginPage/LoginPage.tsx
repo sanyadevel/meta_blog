@@ -6,7 +6,6 @@ import * as yup from 'yup';
 
 import { emailRegex } from '../../variables/emailRegex';
 import signUpPageStyles from '../SignUpPage/SignUpPage.module.scss';
-import { useValidation } from '../../hooks/useValidation';
 
 import loginPageStyles from './LoginPage.module.scss';
 
@@ -15,7 +14,7 @@ const LoginPage: FC = () => {
     .object({
       email: yup
         .string()
-        .min(11)
+        .min(6)
         .max(35)
         .matches(emailRegex, 'Please enter a valid email address')
         .required(),
@@ -23,22 +22,22 @@ const LoginPage: FC = () => {
     })
     .required();
 
-  const formMethods = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
     resolver: yupResolver(schema),
+    mode: 'onBlur',
   });
-  const { register, handleSubmit, formState: { errors } } = formMethods;
 
-  const onSubmit = (data: FormData) => console.log(data);
+  const submitAuthDetails = (data: FormData) => {
+    console.log(data);
+    reset();
+  };
 
   type FormData = yup.InferType<typeof schema>;
-
-  const { validateField } = useValidation(formMethods);
-
-  const onBlurInputs = (e: React.FocusEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    validateField(name, value);
-  };
 
   return (
     <div className={loginPageStyles.main}>
@@ -48,37 +47,43 @@ const LoginPage: FC = () => {
         <h3 className={signUpPageStyles.title}>Sign In</h3>
         <form
           className={signUpPageStyles.form}
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(submitAuthDetails)}
         >
           <label className={signUpPageStyles.label}>Email address</label>
           <div className={signUpPageStyles.inputWrapper}>
-          <input
-            type="text"
-            className={errors.email ? signUpPageStyles.inputError : signUpPageStyles.input}
-            placeholder="Email address"
-            {...register('email', { required: 'Email Address is required' })}
-            onBlur={onBlurInputs}
-          />
-          {errors.email && (
-            <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-              Please enter a valid email address
-            </p>
-          )}
+            <input
+              type="text"
+              className={
+                errors.email
+                  ? signUpPageStyles.inputError
+                  : signUpPageStyles.input
+              }
+              placeholder="Email address"
+              {...register('email', { required: 'Email Address is required' })}
+            />
+            {errors.email && (
+              <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
+                Please enter a valid email address
+              </p>
+            )}
           </div>
           <label className={signUpPageStyles.label}>Password</label>
           <div className={signUpPageStyles.inputWrapper}>
-          <input
-            type="password"
-            className={errors.password ? signUpPageStyles.inputError : signUpPageStyles.input}
-            placeholder="Password"
-            {...register('password', { required: 'Password is required' })}
-            onBlur={onBlurInputs}
-          />
-          {errors.password && (
-            <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-              Your password needs to be at least 6 characters.
-            </p>
-          )}
+            <input
+              type="password"
+              className={
+                errors.password
+                  ? signUpPageStyles.inputError
+                  : signUpPageStyles.input
+              }
+              placeholder="Password"
+              {...register('password', { required: 'Password is required' })}
+            />
+            {errors.password && (
+              <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
+                Your password needs to be at least 6 characters.
+              </p>
+            )}
           </div>
           <input
             type="submit"
