@@ -4,6 +4,7 @@ $daybreak-blue-color: #1890ff;
 $daybreak-blue-color-hover: #41a2ff;
 $gray-color: rgb(161, 161, 161);
 $input-error-color: rgba(245, 34, 45, 1);
+$input-disabled-button-color:#c7c7c7;
 
 .main {
   padding-bottom: 300px;
@@ -92,6 +93,10 @@ $input-error-color: rgba(245, 34, 45, 1);
   }
 }
 
+.submitButton:disabled {
+    background-color: $input-disabled-button-color;
+    cursor: not-allowed;
+}
 .brakeLine {
   width: 420px;
   height: 1px;

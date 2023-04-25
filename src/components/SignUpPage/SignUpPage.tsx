@@ -17,9 +17,11 @@ interface IRegistrationErrors {
 // {email: Array(1), username: Array(1)}email: ['has already been taken']username: ['has already been taken'][[Prototype]]: Object
 
 const SignUpPage: FC = () => {
-  const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const [registerUser] = useRegisterUserMutation();
   const [registrationErrors, setRegistrationErrors] =
     useState<IRegistrationErrors>({});
+
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const schema = yup
     .object({
@@ -66,6 +68,7 @@ const SignUpPage: FC = () => {
 
     try {
       const result = await registerUser(userDatas).unwrap();
+      console.log(result);
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -192,7 +195,7 @@ const SignUpPage: FC = () => {
           </div>
           <span className={signUpPageStyles.brakeLine} />
           <div className={signUpPageStyles.agreeStatement}>
-            <input type="checkbox" id="agree" />
+            <input type="checkbox" id="agree" checked={isChecked} onChange={()=>setIsChecked(prev=>!prev)}/>
             <label className={signUpPageStyles.label} htmlFor="agree">
               I agree to the processing of my personal information
             </label>
@@ -201,7 +204,7 @@ const SignUpPage: FC = () => {
             type="submit"
             className={`${signUpPageStyles.input} ${signUpPageStyles.submitButton}`}
             value="Create"
-            disabled={isLoading}
+            disabled={!isChecked}
           />
           <h3 className={signUpPageStyles.alreadyHaveAccount}>
             Already have an account?
