@@ -9,12 +9,11 @@ import { useRegisterUserMutation } from '../../slices/userRegistration';
 
 import signUpPageStyles from './SignUpPage.module.scss';
 
-interface IRegistrationErrors {
+export interface IRegistrationErrors {
   email?: string[] | undefined;
   password?: string[] | undefined;
-  username?: string[] | undefined; // Change 'userName' to 'username' here
+  username?: string[] | undefined;
 }
-// {email: Array(1), username: Array(1)}email: ['has already been taken']username: ['has already been taken'][[Prototype]]: Object
 
 const SignUpPage: FC = () => {
   const [registerUser] = useRegisterUserMutation();
@@ -57,7 +56,7 @@ const SignUpPage: FC = () => {
 
   type FormData = yup.InferType<typeof schema>;
 
-  const submitRegistrationDatas = async (data: FormData) => {
+  const submitRegistrationDatas = async (data: FormData): Promise<void> => {
     const userDatas = {
       user: {
         username: data?.userName,
@@ -68,13 +67,8 @@ const SignUpPage: FC = () => {
 
     try {
       const result = await registerUser(userDatas).unwrap();
-      console.log(result);
-    } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+    } catch (error: any) {
       if (error?.status === 422) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         setRegistrationErrors(error?.data?.errors);
       }
     }
@@ -110,12 +104,14 @@ const SignUpPage: FC = () => {
             />
             {errors.userName && (
               <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-                Username{' '}
-                {errors?.userName?.message?.split(' ').slice(1).join(' ')}
+                Username
+                {errors?.password?.message?.split(' ').slice(1).join(' ')}
               </p>
             )}
             {(registrationErrors?.username?.length ?? 0) > 0 && (
-              <p className={signUpPageStyles.inputErrorTextLabel}>Username has already been taken</p>
+              <p className={signUpPageStyles.inputErrorTextLabel}>
+                Username has already been taken
+              </p>
             )}
           </div>
 
@@ -146,7 +142,6 @@ const SignUpPage: FC = () => {
                 Email {errors?.email?.message?.split(' ').slice(1).join(' ')}
               </p>
             )}
-            {(registrationErrors?.email?.length ?? 0) > 0 && <p className={signUpPageStyles.inputErrorTextLabel}>Email has already been taken</p>}
           </div>
 
           <label className={signUpPageStyles.label}>Password</label>
@@ -169,7 +164,7 @@ const SignUpPage: FC = () => {
             />
             {errors.password && (
               <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-                Password{' '}
+                Password
                 {errors?.password?.message?.split(' ').slice(1).join(' ')}
               </p>
             )}
@@ -195,7 +190,12 @@ const SignUpPage: FC = () => {
           </div>
           <span className={signUpPageStyles.brakeLine} />
           <div className={signUpPageStyles.agreeStatement}>
-            <input type="checkbox" id="agree" checked={isChecked} onChange={()=>setIsChecked(prev=>!prev)}/>
+            <input
+              type="checkbox"
+              id="agree"
+              checked={isChecked}
+              onChange={() => setIsChecked((prev) => !prev)}
+            />
             <label className={signUpPageStyles.label} htmlFor="agree">
               I agree to the processing of my personal information
             </label>

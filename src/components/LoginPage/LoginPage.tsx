@@ -1,15 +1,32 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { ToastContainer } from 'react-toastify';
 
 import { emailRegex } from '../../variables/emailRegex';
 import signUpPageStyles from '../SignUpPage/SignUpPage.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import { useLoginUserMutation, UserLoginDetails } from '../../slices/userLogin';
+import { callLoginErrors } from '../../logics/errors/callLoginErrors';
 
 import loginPageStyles from './LoginPage.module.scss';
 
 const LoginPage: FC = () => {
+  const [isLoginButtonDisabled, setIsLoginButtonDisabled] =
+    useState<boolean>(true);
+
+  const [isLoginError, setIsLoginError] = useState<boolean>(false);
+
+  useEffect(()=>{
+    if (isLoginError) {
+      callLoginErrors('Email or password is incorrect');
+    }
+  }, [isLoginError]);
+
+  const [loginUserMutation] = useLoginUserMutation();
+
   const schema = yup
     .object({
       email: yup
@@ -27,13 +44,40 @@ const LoginPage: FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: 'onBlur',
   });
 
-  const submitAuthDetails = (data: FormData) => {
-    console.log(data);
+  const loginInput = watch('email');
+  const passwordInput = watch('password');
+
+  useEffect(() => {
+    if (loginInput?.match(emailRegex) && passwordInput?.length >= 6) {
+      setIsLoginButtonDisabled(false);
+    } else {
+      setIsLoginButtonDisabled(true);
+    }
+  }, [loginInput, passwordInput]);
+
+  const submitAuthDetails = async (data: FormData): Promise<void> => {
+    const userLoginDatas: UserLoginDetails = {
+      user: {
+        email: data?.email,
+        password: data?.password,
+      },
+    };
+
+    try {
+      const userDatas = await loginUserMutation(userLoginDatas).unwrap();
+      setIsLoginError(false);
+      console.log(userDatas);
+    } catch (error: any) {
+      if (error?.status === 403) {
+        setIsLoginError(true);
+      }
+    }
     reset();
   };
 
@@ -85,10 +129,12 @@ const LoginPage: FC = () => {
               </p>
             )}
           </div>
+          <ToastContainer />
           <input
             type="submit"
             className={`${signUpPageStyles.input} ${signUpPageStyles.submitButton}`}
             value="Login"
+            disabled={isLoginButtonDisabled}
           />
           <h3 className={signUpPageStyles.alreadyHaveAccount}>
             Already have an account?

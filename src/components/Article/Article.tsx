@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import Heart from 'react-heart';
 
 import { IArticle } from '../ArticleList/ArticleList';
-import { formatDate } from '../../logics/formateDate';
+import { formatDate } from '../../logics/date/formateDate';
 
 import articleStyles from './Article.module.scss';
 

@@ -1,10 +1,28 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+export interface UserRegistrationnDetails {
+  [key: string]: {
+    username: string;
+    email: string;
+    password?: string;
+    confirmPassword?: string;
+  }
+}
+export interface UserRegistrationResponse {
+  user: {
+    email: string;
+    username: string;
+    bio: string;
+    image: string | null;
+    token: string;
+  };
+}
+
 const registerUser = createApi({
   reducerPath: 'registerUser',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.realworld.io/api' }),
   endpoints: (builder) => ({
-    registerUser: builder.mutation({
+    registerUser: builder.mutation<UserRegistrationResponse, UserRegistrationnDetails>({
       query: (user) => {
         return {
           url: '/users',
