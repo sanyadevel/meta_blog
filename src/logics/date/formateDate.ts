@@ -1,5 +1,5 @@
 const formatDate = (timestamp = ''):string => {
-  const date = new Date(timestamp);
+  const date:Date = new Date(timestamp);
 
   const monthNames: string[] = [
     'January',

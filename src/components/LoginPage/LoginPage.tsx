@@ -9,7 +9,9 @@ import { emailRegex } from '../../variables/emailRegex';
 import signUpPageStyles from '../SignUpPage/SignUpPage.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import { useLoginUserMutation, UserLoginDetails } from '../../slices/userLogin';
-import { callLoginErrors } from '../../logics/errors/callLoginErrors';
+import { callNotification } from '../../logics/errors/callLoginErrors';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { uploadUserInfo } from '../../slices/userProfileInfo';
 
 import loginPageStyles from './LoginPage.module.scss';
 
@@ -21,11 +23,17 @@ const LoginPage: FC = () => {
 
   useEffect(()=>{
     if (isLoginError) {
-      callLoginErrors('Email or password is incorrect');
+      callNotification('Email or password is incorrect', 'error' );
     }
   }, [isLoginError]);
 
   const [loginUserMutation] = useLoginUserMutation();
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.userInfo.userDatas);
+
+  useEffect(()=>{
+    console.log(userInfo, 'userInfo');
+  }, [userInfo]);
 
   const schema = yup
     .object({
@@ -72,7 +80,8 @@ const LoginPage: FC = () => {
     try {
       const userDatas = await loginUserMutation(userLoginDatas).unwrap();
       setIsLoginError(false);
-      console.log(userDatas);
+      dispatch(uploadUserInfo({ userDatas: userDatas.user }));
+
     } catch (error: any) {
       if (error?.status === 403) {
         setIsLoginError(true);

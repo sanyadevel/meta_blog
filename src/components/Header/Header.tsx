@@ -6,9 +6,9 @@ import headerStyles from './Header.module.scss';
 const Header: FC = () => {
   return (
     <div className={headerStyles.items}>
-      <Link to="/" className={headerStyles.listDecoration}>
+      <a href="/" className={headerStyles.listDecoration}>
         META_BLOG
-      </Link>
+      </a>
       <div>
         <Link to="/login" className={headerStyles.listDecoration}>
           Sign In

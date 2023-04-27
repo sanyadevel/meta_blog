@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { ToastContainer } from 'react-toastify';
 
 import { emailRegex } from '../../variables/emailRegex';
 import { useRegisterUserMutation } from '../../slices/userRegistration';
+import { callNotification } from '../../logics/errors/callLoginErrors';
 
 import signUpPageStyles from './SignUpPage.module.scss';
 
@@ -21,6 +23,8 @@ const SignUpPage: FC = () => {
     useState<IRegistrationErrors>({});
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isSignUpErrors, setIsSignUpErrors] = useState<boolean>(false);
+
 
   const schema = yup
     .object({
@@ -67,6 +71,9 @@ const SignUpPage: FC = () => {
 
     try {
       const result = await registerUser(userDatas).unwrap();
+      if (result) {
+        callNotification('Congratulations, your account was successful created', 'success');
+      }
     } catch (error: any) {
       if (error?.status === 422) {
         setRegistrationErrors(error?.data?.errors);
@@ -78,6 +85,7 @@ const SignUpPage: FC = () => {
   return (
     <div className={signUpPageStyles.main}>
       <div className={signUpPageStyles.container}>
+        <ToastContainer className={signUpPageStyles.notification} />
         <h2 className={signUpPageStyles.title}>Create new account</h2>
 
         <form
@@ -104,8 +112,7 @@ const SignUpPage: FC = () => {
             />
             {errors.userName && (
               <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-                Username
-                {errors?.password?.message?.split(' ').slice(1).join(' ')}
+                Username {errors?.userName?.message?.split(' ').slice(1).join(' ')}
               </p>
             )}
             {(registrationErrors?.username?.length ?? 0) > 0 && (
@@ -164,8 +171,7 @@ const SignUpPage: FC = () => {
             />
             {errors.password && (
               <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>
-                Password
-                {errors?.password?.message?.split(' ').slice(1).join(' ')}
+                Password {errors?.password?.message?.split(' ').slice(1).join(' ')}
               </p>
             )}
           </div>
@@ -222,3 +228,5 @@ const SignUpPage: FC = () => {
 };
 
 export default SignUpPage;
+
+//sdfgsdfgsdfg@gmail.com

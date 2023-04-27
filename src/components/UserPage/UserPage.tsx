@@ -1,11 +1,13 @@
 import React from 'react';
 
+import ArticleList from '../ArticleList';
+
 const UserPage = () => {
 
   return (
-    <div>
-
-    </div>
+   <>
+     <ArticleList/>
+   </>
   );
 };
 

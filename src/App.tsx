@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Offline, Online } from 'react-detect-offline';
 
 import NoInternetConnection from './components/NoInternetConnection';
-import Header from './components/Header';
 import LoginPage from './components/LoginPage';
 import SignUpPage from './components/SignUpPage';
 import appStyles from './App.module.scss';
 import ArticleList from './components/ArticleList';
 import PageIsNotFound from './components/PageIsNotFound';
+import UserPage from './components/UserPage';
+import Header from './components/Header';
 
 const App: FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: FC = () => {
               <Route path="/articles" element={<ArticleList/>} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<SignUpPage />} />
+              <Route path="/user" element={<UserPage/>} />
               <Route path="*" element={<PageIsNotFound/>} />
             </Routes>
           </Router>

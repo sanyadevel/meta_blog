@@ -35,7 +35,7 @@ const ArticlesList: FC<IArticle> = () => {
   ); // get current page from store
 
   const { data, error, isLoading } = useGetArticlesQuery({
-    limit: 10,
+    limit: 5,
     page: currentPage,
   });
 
@@ -79,3 +79,4 @@ const ArticlesList: FC<IArticle> = () => {
 };
 
 export default ArticlesList;
+
