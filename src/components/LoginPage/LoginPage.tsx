@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useLoginUserMutation, UserLoginDetails } from '../../slices/userLogin';
 import { callNotification } from '../../logics/errors/callLoginErrors';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { uploadUserInfo } from '../../slices/userProfileInfo';
+import { changeUserActiveStatus, uploadUserInfo } from '../../slices/userProfileInfo';
 
 import loginPageStyles from './LoginPage.module.scss';
 
@@ -20,6 +20,7 @@ const LoginPage: FC = () => {
     useState<boolean>(true);
 
   const [isLoginError, setIsLoginError] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(()=>{
     if (isLoginError) {
@@ -80,7 +81,11 @@ const LoginPage: FC = () => {
     try {
       const userDatas = await loginUserMutation(userLoginDatas).unwrap();
       setIsLoginError(false);
-      dispatch(uploadUserInfo({ userDatas: userDatas.user }));
+      if ('user' in userDatas) {
+        dispatch(uploadUserInfo({ userDatas: userDatas.user }));
+        dispatch(changeUserActiveStatus( { isUserLoggedIn: true } ));
+        navigate('/user');
+      }
 
     } catch (error: any) {
       if (error?.status === 403) {
@@ -89,6 +94,7 @@ const LoginPage: FC = () => {
     }
     reset();
   };
+
 
   type FormData = yup.InferType<typeof schema>;
 

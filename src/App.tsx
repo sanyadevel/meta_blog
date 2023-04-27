@@ -10,16 +10,20 @@ import ArticleList from './components/ArticleList';
 import PageIsNotFound from './components/PageIsNotFound';
 import UserPage from './components/UserPage';
 import Header from './components/Header';
+import { useAppSelector } from './store';
 
 const App: FC = () => {
+  const isUserLoggedIn = useAppSelector(
+    (state) => state.userInfo.isUserLoggedIn,
+  );
+
   return (
       <div className={appStyles.container}>
         <Online>
           <Router>
-            <Header />
+            {!isUserLoggedIn && <Header/>}
             <Routes>
               <Route path='/' element={<ArticleList/>} />
-              <Route path="/articles" element={<ArticleList/>} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<SignUpPage />} />
               <Route path="/user" element={<UserPage/>} />

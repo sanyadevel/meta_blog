@@ -3,6 +3,7 @@ import Heart from 'react-heart';
 
 import { IArticle } from '../ArticleList/ArticleList';
 import { formatDate } from '../../logics/date/formateDate';
+import { useAppSelector } from '../../store';
 
 import articleStyles from './Article.module.scss';
 
@@ -14,6 +15,9 @@ const Article: FC<IArticle> = ({
   createdAt,
 }) => {
   const [active, setActive] = useState<boolean>(false);
+  const isUserLoggedIn = useAppSelector(
+    (state) => state.userInfo.isUserLoggedIn,
+  );
 
   return (
     <>
@@ -26,7 +30,7 @@ const Article: FC<IArticle> = ({
             <div className={articleStyles.likeBtn}>
               <Heart
                 isActive={active}
-                onClick={() => setActive(!active)}
+                onClick={() => isUserLoggedIn ? setActive(!active) : null}
                 animationScale={1.1}
               />
             </div>

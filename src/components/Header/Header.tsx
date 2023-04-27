@@ -1,10 +1,20 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useAppSelector } from '../../store';
+
 import headerStyles from './Header.module.scss';
 
-const Header: FC = () => {
-  return (
+interface HeaderProps {
+  children?: React.ReactNode;
+}
+
+const Header: FC<HeaderProps> = ({ children }) => {
+  const isUserLoggedIn = useAppSelector(
+    (state) => state.userInfo.isUserLoggedIn,
+  );
+
+  return !isUserLoggedIn ? (
     <div className={headerStyles.items}>
       <a href="/" className={headerStyles.listDecoration}>
         META_BLOG
@@ -23,6 +33,13 @@ const Header: FC = () => {
           Sign Up
         </Link>
       </div>
+    </div>
+  ) : (
+    <div className={headerStyles.items}>
+      <a href="/" className={headerStyles.listDecoration}>
+        META_BLOG
+      </a>
+      <div className={headerStyles.childrenContainer}>{children}</div>
     </div>
   );
 };

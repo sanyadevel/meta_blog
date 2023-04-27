@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IUserInfo {
-  userDatas: {
+  userDatas?: {
     bio?: null | string;
     email?: string;
-    image?: string | null;
+    image?: string | null
     token?: string;
     username?: string;
   };
+  isUserLoggedIn?: boolean;
 }
 
 const initialState: IUserInfo = {
@@ -18,6 +19,7 @@ const initialState: IUserInfo = {
     token: '',
     username: '',
   },
+  isUserLoggedIn: false,
 };
 
 
@@ -26,10 +28,13 @@ const userProfileInfo = createSlice({
   initialState,
   reducers: {
     uploadUserInfo: (state, action: PayloadAction<IUserInfo>) => {
-      return action.payload;
+      state.userDatas = action.payload.userDatas;
+    },
+    changeUserActiveStatus: (state, action: PayloadAction<{ isUserLoggedIn: boolean }>) => {
+      state.isUserLoggedIn = action.payload.isUserLoggedIn;
     },
   },
 });
 
-export const { uploadUserInfo } = userProfileInfo.actions;
+export const { uploadUserInfo, changeUserActiveStatus } = userProfileInfo.actions;
 export default userProfileInfo.reducer;
