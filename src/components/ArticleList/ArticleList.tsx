@@ -70,7 +70,7 @@ const ArticlesList: FC<IArticle> = () => {
         defaultCurrent={1}
         total={totalCountPages * 10}
         size="default"
-        style={{ textAlign: 'center', marginTop: 40, paddingBottom: 40 }}
+        style={{ textAlign: 'center', marginTop: 60, paddingBottom: 80 }}
         showSizeChanger={false}
         onChange={(page: number) => dispatch(changeArticlePage(page))} // поднимаем в стейт номер страницы
       />

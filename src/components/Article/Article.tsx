@@ -37,8 +37,8 @@ const Article: FC<IArticle> = ({
             <span>12</span>
           </div>
           <div className={articleStyles.tags}>
-            {tagList?.map((tag, idx) => (
-              <span className={articleStyles.tag} key={idx}>
+            {tagList?.map((tag) => (
+              <span className={articleStyles.tag} key={crypto.randomUUID()}>
                 {tag}
               </span>
             ))}

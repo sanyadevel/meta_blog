@@ -22,9 +22,9 @@ const LoginPage: FC = () => {
   const [isLoginError, setIsLoginError] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (isLoginError) {
-      callNotification('Email or password is incorrect', 'error' );
+      callNotification('Email or password is incorrect', 'error');
     }
   }, [isLoginError]);
 
@@ -32,7 +32,7 @@ const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.userInfo.userDatas);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(userInfo, 'userInfo');
   }, [userInfo]);
 
@@ -83,10 +83,9 @@ const LoginPage: FC = () => {
       setIsLoginError(false);
       if ('user' in userDatas) {
         dispatch(uploadUserInfo({ userDatas: userDatas.user }));
-        dispatch(changeUserActiveStatus( { isUserLoggedIn: true } ));
-        navigate('/user');
+        dispatch(changeUserActiveStatus({ isUserLoggedIn: true }));
+        navigate('/profile');
       }
-
     } catch (error: any) {
       if (error?.status === 403) {
         setIsLoginError(true);
@@ -94,7 +93,6 @@ const LoginPage: FC = () => {
     }
     reset();
   };
-
 
   type FormData = yup.InferType<typeof schema>;
 
@@ -154,7 +152,7 @@ const LoginPage: FC = () => {
           <h3 className={signUpPageStyles.alreadyHaveAccount}>
             Already have an account?
             <Link
-              to="/register"
+              to="/sign-up"
               className={signUpPageStyles.alreadyHaveAccount__link}
             >
               Sign Up.

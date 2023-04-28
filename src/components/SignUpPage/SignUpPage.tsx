@@ -41,7 +41,7 @@ const SignUpPage: FC = () => {
             return emailRegex.test(value);
           },
         ),
-      password: yup.string().min(6).max(35).required('Password is required'),
+      password: yup.string().min(6).max(40).required('Password is required'),
       passwordConfirmation: yup
         .string()
         .oneOf([yup.ref('password'), undefined], 'Passwords must match'),
@@ -215,7 +215,7 @@ const SignUpPage: FC = () => {
           <h3 className={signUpPageStyles.alreadyHaveAccount}>
             Already have an account?
             <Link
-              to="/login"
+              to="/sign-in"
               className={signUpPageStyles.alreadyHaveAccount__link}
             >
               Sign In.

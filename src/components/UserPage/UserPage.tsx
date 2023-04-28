@@ -24,11 +24,11 @@ const UserPage = () => {
 
   //
   if (!isUserLoggedIn) {
-    navigate('/');
+    navigate('/articles');
   }
 
   return (
-    <>
+    <div className={styles.container}>
       {isUserLoggedIn && (
         <Header>
           <button className={styles.createArticle}>Create article</button>
@@ -46,7 +46,7 @@ const UserPage = () => {
         </Header>
       )}
       <ArticleList />
-    </>
+    </div>
   );
 };
 

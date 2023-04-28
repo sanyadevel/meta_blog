@@ -1,0 +1,134 @@
+$white-color: white;
+$add-item-button-color: rgba(24, 144, 255, 1);
+$add-item-button-color-hover: #74a4fc;
+$delete-item-button-color: rgba(245, 34, 45, 1);
+$delete-item-button-color-hover: rgb(255, 89, 95);
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.main {
+  height: auto;
+  background-color: #ebeef3;
+  padding-bottom: 180px;
+}
+
+.container {
+  margin: 70px auto;
+  width: 938px;
+  height: auto;
+  background-color: $white-color;
+  padding: 0 32px 40px 32px;
+  -webkit-box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+  -moz-box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+  box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+  border-radius: 6px;
+}
+
+.title {
+  text-align: center;
+  padding-top: 60px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.mainInputs {
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+
+  input {
+    height: 40px;
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    margin-bottom: 21px;
+    font-size: 16px;
+    padding-left: 12px;
+  }
+  label {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+}
+
+.textArea {
+  height: 168px;
+  resize: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+}
+
+@mixin tagButton($buttonColor, $hoverColor) {
+  width: 136px;
+  height: 40px;
+  padding: 8px 16px;
+  border: 1px solid $buttonColor;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  color: $buttonColor;
+  font-size: 15px;
+
+  &:hover {
+    background-color: $hoverColor;
+    color: white;
+    transition: 0.3s ease-in-out;
+  }
+}
+
+.addTagButton {
+  @include tagButton($add-item-button-color, $add-item-button-color-hover);
+}
+
+.deleteTagButton {
+  @include tagButton(
+    $delete-item-button-color,
+    $delete-item-button-color-hover
+  );
+  margin-left:20px
+}
+
+.tag{
+margin-bottom: 20px;
+}
+
+.sendButton {
+  display: block;
+  width: 319px;
+  height: 40px;
+  color: $white-color;
+  background-color: $add-item-button-color;
+  border: none;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin:40px 0;
+
+  &:hover {
+    background-color: $add-item-button-color-hover;
+    transition: 0.3s ease-in-out;
+  }
+}
+
+.tagHandlerButtons{
+  margin:48px 0;
+}
+
+.customInput{
+  width:300px;
+  height:40px;
+  padding: 8px 16px;
+  border: 1px solid #d9d9d9 ;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+

@@ -20,11 +20,11 @@ const Header: FC<HeaderProps> = ({ children }) => {
         META_BLOG
       </a>
       <div>
-        <Link to="/login" className={headerStyles.listDecoration}>
+        <Link to="/sign-in" className={headerStyles.listDecoration}>
           Sign In
         </Link>
         <Link
-          to="/register"
+          to="/sign-up"
           className={`${
             (headerStyles.listDecoration,
             headerStyles.listDecoration__signupBackground)
