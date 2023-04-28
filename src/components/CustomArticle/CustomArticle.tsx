@@ -60,18 +60,7 @@ const CustomArticle: FC = () => {
             ></textarea>
           </div>
 
-          <div className={customArticleStyles.tagHandlerButtons}>
-            <button
-              className={customArticleStyles.addTagButton}
-              onClick={(e) => {
-                e.preventDefault();
-                append({ value: '' });
-              }}
-            >
-              Add tag
-            </button>
-          </div>
-
+          {fields.length > 0 && <span className={customArticleStyles.tagsTitle}>Tags</span>}
           {fields.map((field, index) => (
             <div className={customArticleStyles.tag} key={field.id}>
               <input
@@ -87,7 +76,17 @@ const CustomArticle: FC = () => {
               </button>
             </div>
           ))}
-
+          <div className={customArticleStyles.tagHandlerButtons}>
+            <button
+              className={customArticleStyles.addTagButton}
+              onClick={(e) => {
+                e.preventDefault();
+                append({ value: '' });
+              }}
+            >
+              Add tag
+            </button>
+          </div>
           <button type="submit" className={customArticleStyles.sendButton}>
             Send
           </button>
