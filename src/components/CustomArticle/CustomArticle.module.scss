@@ -90,11 +90,11 @@ $delete-item-button-color-hover: rgb(255, 89, 95);
     $delete-item-button-color,
     $delete-item-button-color-hover
   );
-  margin-left:20px
+  margin-left: 20px;
 }
 
-.tag{
-margin-bottom: 20px;
+.tag {
+  margin-bottom: 20px;
 }
 
 .sendButton {
@@ -110,7 +110,7 @@ margin-bottom: 20px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
-  margin:40px 0;
+  margin: 40px 0;
 
   &:hover {
     background-color: $add-item-button-color-hover;
@@ -118,24 +118,23 @@ margin-bottom: 20px;
   }
 }
 
-.tagHandlerButtons{
-  margin:48px 0;
+.tagHandlerButtons {
+  margin: 48px 0;
 }
 
-.customInput{
-  width:300px;
-  height:40px;
+.customInput {
+  width: 300px;
+  height: 40px;
   padding: 8px 16px;
-  border: 1px solid #d9d9d9 ;
+  border: 1px solid #d9d9d9;
   border-radius: 4px;
   background-color: white;
   cursor: pointer;
   font-size: 15px;
 }
 
-.tagsTitle{
- font-size: 14px;
+.tagsTitle {
+  font-size: 14px;
   margin-bottom: 6px;
   display: block;
 }
-
