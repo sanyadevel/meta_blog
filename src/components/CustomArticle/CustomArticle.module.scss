@@ -44,7 +44,7 @@ $delete-item-button-color-hover: rgb(255, 89, 95);
     width: 100%;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
-    margin-bottom: 21px;
+    margin-bottom: 18px;
     font-size: 16px;
     padding-left: 12px;
   }
@@ -61,6 +61,7 @@ $delete-item-button-color-hover: rgb(255, 89, 95);
   border-radius: 4px;
   padding: 12px;
   font-size: 16px;
+  margin-bottom: 20px;
 }
 
 @mixin tagButton($buttonColor, $hoverColor) {
@@ -95,6 +96,7 @@ $delete-item-button-color-hover: rgb(255, 89, 95);
 
 .tag {
   margin-bottom: 20px;
+  display: flex;
 }
 
 .sendButton {
@@ -131,10 +133,17 @@ $delete-item-button-color-hover: rgb(255, 89, 95);
   background-color: white;
   cursor: pointer;
   font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .tagsTitle {
   font-size: 14px;
   margin-bottom: 6px;
   display: block;
+}
+
+.inputErrorTextLabel{
+  color: rgb(245, 34, 45);
+  margin-bottom: 20px;
+  font-size: 14px;
 }
