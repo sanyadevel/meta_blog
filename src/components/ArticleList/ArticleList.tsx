@@ -28,17 +28,18 @@ export interface IArticle {
 const ArticlesList: FC<IArticle> = () => {
   const dispatch: AppDispatch = useAppDispatch();
 
-  const totalCountPages = useAppSelector(state=>state.article.totalCountPages);
+  const totalCountPages = useAppSelector(
+    (state) => state.article.totalCountPages,
+  );
 
   const currentPage: number | undefined = useAppSelector(
     (state) => state.article.currentPage,
   ); // get current page from store
 
-  const { data, error, isLoading  } = useGetArticlesQuery({
+  const { data, error, isLoading } = useGetArticlesQuery({
     limit: 5,
     page: currentPage,
   });
-
 
   const memoizedPageCount = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -53,7 +54,6 @@ const ArticlesList: FC<IArticle> = () => {
       dispatch(getTotalCountPages(memoizedPageCount));
     }
   }, [dispatch, memoizedPageCount]);
-
 
   if (isLoading) return <Loader />;
   if (error) {
@@ -73,11 +73,10 @@ const ArticlesList: FC<IArticle> = () => {
         size="default"
         style={{ textAlign: 'center', marginTop: 60, paddingBottom: 80 }}
         showSizeChanger={false}
-        onChange={(page: number) =>dispatch(changeArticlePage(page)) }  // поднимаем в стейт номер страницы
+        onChange={(page: number) => dispatch(changeArticlePage(page))} // поднимаем в стейт номер страниц
       />
     </div>
   );
 };
 
 export default ArticlesList;
-
