@@ -34,10 +34,11 @@ const ArticlesList: FC<IArticle> = () => {
     (state) => state.article.currentPage,
   ); // get current page from store
 
-  const { data, error, isLoading } = useGetArticlesQuery({
+  const { data, error, isLoading  } = useGetArticlesQuery({
     limit: 5,
     page: currentPage,
   });
+
 
   const memoizedPageCount = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -72,7 +73,7 @@ const ArticlesList: FC<IArticle> = () => {
         size="default"
         style={{ textAlign: 'center', marginTop: 60, paddingBottom: 80 }}
         showSizeChanger={false}
-        onChange={(page: number) => dispatch(changeArticlePage(page))} // поднимаем в стейт номер страницы
+        onChange={(page: number) =>dispatch(changeArticlePage(page)) }  // поднимаем в стейт номер страницы
       />
     </div>
   );

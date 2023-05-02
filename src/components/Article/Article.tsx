@@ -1,11 +1,14 @@
 import React, { FC, useState } from 'react';
 import Heart from 'react-heart';
+import { useNavigate } from 'react-router-dom';
 
 import { IArticle } from '../ArticleList/ArticleList';
 import { formatDate } from '../../logics/date/formateDate';
-import { useAppSelector } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { updateSlug } from '../../slices/articleSlice';
 
 import articleStyles from './Article.module.scss';
+
 
 const Article: FC<IArticle> = ({
   title,
@@ -13,18 +16,27 @@ const Article: FC<IArticle> = ({
   description,
   author,
   createdAt,
+  slug,
 }) => {
+
   const [active, setActive] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const isUserLoggedIn = useAppSelector(
     (state) => state.userInfo.isUserLoggedIn,
   );
 
+  const getSlugFromTitle = (slugTitle: string): void => {
+    dispatch(updateSlug(slugTitle));
+    return navigate(`/articles/${slugTitle}`);
+  };
+
+
   return (
-    <>
       <div className={articleStyles.container}>
         <main className={articleStyles.main}>
           <div className={articleStyles.header}>
-            <h3 className={articleStyles.title}>
+            <h3 className={articleStyles.title} onClick={()=>getSlugFromTitle(slug || '')}>
               {title?.split(' ').slice(0, 13).join(' ')}
             </h3>
             <div className={articleStyles.likeBtn}>
@@ -61,7 +73,6 @@ const Article: FC<IArticle> = ({
           />
         </legend>
       </div>
-    </>
   );
 };
 

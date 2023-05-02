@@ -5,6 +5,7 @@ import articleSlice from '../slices/articleSlice';
 import registerUser from '../slices/userRegistration';
 import userLogin from '../slices/userLogin';
 import userProfileInfo from '../slices/userProfileInfo';
+import getFullArticle from '../slices/fullArticlePage';
 
 export const rootReducer = combineReducers({
   articlesApi: articlesApi.reducer,
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
   registerUser: registerUser.reducer,
   userLogin: userLogin.reducer,
   userInfo: userProfileInfo,
+  fullArticle: getFullArticle.reducer,
 });

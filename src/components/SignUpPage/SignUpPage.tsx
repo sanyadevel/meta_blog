@@ -83,6 +83,7 @@ const SignUpPage: FC = () => {
   };
 
   return (
+<>
     <div className={signUpPageStyles.main}>
       <div className={signUpPageStyles.container}>
         <ToastContainer className={signUpPageStyles.notification} />
@@ -224,6 +225,7 @@ const SignUpPage: FC = () => {
         </form>
       </div>
     </div>
+</>
   );
 };
 

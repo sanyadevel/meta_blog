@@ -22,4 +22,5 @@ const formatDate = (timestamp = ''):string => {
 
   return `${month} ${day}, ${year}`;
 };
+
 export { formatDate };

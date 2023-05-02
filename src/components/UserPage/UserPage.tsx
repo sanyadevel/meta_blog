@@ -17,24 +17,24 @@ const UserPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const getLogoutedUser = (): void => {
+  const getLogoutedUser = () => {
     dispatch(uploadUserInfo({ userDatas: {} }));
     dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
   };
 
-  //
   if (!isUserLoggedIn) {
     navigate('/articles');
   }
 
   return (
+    <>
     <div className={styles.container}>
       {isUserLoggedIn && (
         <Header>
           <button className={styles.createArticle}>Create article</button>
           <h3 className={styles.username}>{userInfo?.username}</h3>
           <img className={styles.userAvatar} src={userInfo?.image || ''} alt='user avatar'/>
-          <a
+          <a href='/articles'
             className={`${
               (headerStyles.listDecoration, 
               headerStyles.listDecoration__logoutBackground)
@@ -47,6 +47,7 @@ const UserPage = () => {
       )}
       <ArticleList />
     </div>
+    </>
   );
 };
 

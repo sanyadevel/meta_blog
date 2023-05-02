@@ -84,7 +84,7 @@ const LoginPage: FC = () => {
       if ('user' in userDatas) {
         dispatch(uploadUserInfo({ userDatas: userDatas.user }));
         dispatch(changeUserActiveStatus({ isUserLoggedIn: true }));
-        navigate('/profile');
+        return navigate('/profile');
       }
     } catch (error: any) {
       if (error?.status === 403) {

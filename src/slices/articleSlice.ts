@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IArticleState {
-  totalCountPages: number;
   currentPage?: number;
+  totalCountPages: number;
+  slug?: string;
 }
 
 const initialState: IArticleState = {
-  totalCountPages: 50,
   currentPage: 1,
+  totalCountPages: 50,
+  slug:'',
 };
 
 const articleSlice = createSlice({
@@ -20,8 +22,11 @@ const articleSlice = createSlice({
     getTotalCountPages: (state: IArticleState, action:PayloadAction<number>) => {
       state.totalCountPages = action.payload;
     },
+    updateSlug: (state: IArticleState, action:PayloadAction<string>) => {
+      state.slug = action.payload;
+    },
   },
 });
 
-export const { changeArticlePage, getTotalCountPages } = articleSlice.actions;
+export const { changeArticlePage, getTotalCountPages, updateSlug } = articleSlice.actions;
 export default articleSlice.reducer;

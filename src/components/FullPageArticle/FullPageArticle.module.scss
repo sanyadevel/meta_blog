@@ -1,0 +1,117 @@
+$red-color: rgba(245, 34, 45, 1);
+$green-color: rgba(82, 196, 26, 1);
+$simple-white-color: white;
+$blue-color: #1890ff;
+
+* {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+}
+
+.main {
+  padding-bottom: 900px;
+}
+
+.container {
+  width: 70%;
+  height: auto; // static пока что
+  background-color: white;
+  margin: 30px auto;
+  padding: 27px 19px;
+  border-radius: 1px;
+  -webkit-box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+  -moz-box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+  box-shadow: 4px 0px 25px 0px rgba(168, 168, 168, 1);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  font-size: 24px;
+  font-weight: 400;
+  padding: 0;
+  line-height: 28px;
+  width: 95%;
+  color: $blue-color;
+}
+.tag {
+  margin-right: 10px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 2px 5px;
+  color: rgba(0, 0, 0, 0.5);
+}
+.headerFirstPart {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.description {
+  margin:40px 0;
+  font-size: 17px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.5);
+  width: 76%;
+}
+.date {
+  color: rgba(0, 0, 0, 0.5);
+}
+.mainBody {
+}
+.user {
+  display: flex;
+  height: 80px;
+  align-items: center;
+}
+.userName {
+  font-size: 20px;
+  line-height: 28px;
+}
+.userAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-left: 20px;
+}
+.descriptionContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.articleEditButtons {
+  display: flex;
+  align-items: center;
+  margin-right: 53px;
+}
+
+.deleteButton {
+  width: 82px;
+  height: 35px;
+  border: 1.5px solid $red-color;
+  color: $red-color;
+  background-color: $simple-white-color;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffc3c3;
+    transition: 0.3s ease-in-out;
+  }
+}
+
+.editButton {
+  margin-left: 15px;
+  width: 75px;
+  height: 35px;
+  border-radius: 5px;
+  color: $green-color;
+  border: 1.5px solid $green-color;
+  background-color: $simple-white-color;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #dcf5ce;
+    transition: 0.3s ease-in-out;
+  }
+}
