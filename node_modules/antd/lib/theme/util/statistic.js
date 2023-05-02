@@ -36,9 +36,9 @@ function merge() {
   recording = true;
   return ret;
 }
-/** @private Internal Usage. Not use in your production. */
+/** @internal Internal Usage. Not use in your production. */
 const statistic = {};
-/** @private Internal Usage. Not use in your production. */
+/** @internal Internal Usage. Not use in your production. */
 // eslint-disable-next-line camelcase
 exports.statistic = statistic;
 const _statistic_build_ = {};

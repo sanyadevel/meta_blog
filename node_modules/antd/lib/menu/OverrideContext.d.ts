@@ -8,4 +8,5 @@ export interface OverrideContextProps {
     validator?: (menuProps: Pick<MenuProps, 'mode'>) => void;
     onClick?: () => void;
 }
-export default OverrideContext;
+declare const OverrideContext: React.Context<OverrideContextProps | null>;
+export {};

@@ -187,7 +187,7 @@ methods.forEach(type => {
 // ==                                   Test                                   ==
 // ==============================================================================
 const noop = () => {};
-/** @private Only Work in test env */
+/** @internal Only Work in test env */
 // eslint-disable-next-line import/no-mutable-exports
 let actWrapper = noop;
 exports.actWrapper = actWrapper;

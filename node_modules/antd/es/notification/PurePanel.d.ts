@@ -21,5 +21,3 @@ export declare function PureContent({ prefixCls, icon, type, message, descriptio
 export interface PurePanelProps extends Omit<NoticeProps, 'prefixCls' | 'eventKey'>, Omit<PureContentProps, 'prefixCls' | 'children'> {
     prefixCls?: string;
 }
-/** @private Internal Component. Do not use in your production. */
-export default function PurePanel(props: PurePanelProps): JSX.Element;

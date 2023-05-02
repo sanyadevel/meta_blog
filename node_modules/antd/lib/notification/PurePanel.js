@@ -81,7 +81,7 @@ function PureContent(_ref) {
     className: `${prefixCls}-btn`
   }, btn));
 }
-/** @private Internal Component. Do not use in your production. */
+/** @internal Internal Component. Do not use in your production. */
 function PurePanel(props) {
   const {
       prefixCls: staticPrefixCls,

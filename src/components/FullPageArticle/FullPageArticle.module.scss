@@ -28,6 +28,7 @@ header {
   display: flex;
   justify-content: space-between;
 }
+
 .title {
   font-size: 24px;
   font-weight: 400;
@@ -36,6 +37,7 @@ header {
   width: 95%;
   color: $blue-color;
 }
+
 .tag {
   margin-right: 10px;
   border-radius: 3px;
@@ -43,42 +45,48 @@ header {
   padding: 2px 5px;
   color: rgba(0, 0, 0, 0.5);
 }
+
 .headerFirstPart {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
+
 .description {
-  margin:40px 0;
+  margin: 40px 0;
   font-size: 17px;
   line-height: 24px;
   color: rgba(0, 0, 0, 0.5);
   width: 76%;
 }
+
 .date {
   color: rgba(0, 0, 0, 0.5);
 }
-.mainBody {
-}
+
 .user {
   display: flex;
   height: 80px;
   align-items: center;
 }
+
 .userName {
   font-size: 20px;
   line-height: 28px;
 }
+
 .userAvatar {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   margin-left: 20px;
 }
+
 .descriptionContainer {
   display: flex;
   justify-content: space-between;
 }
+
 .articleEditButtons {
   display: flex;
   align-items: center;
