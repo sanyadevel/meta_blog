@@ -2,20 +2,44 @@ import React, { FC } from 'react';
 import * as yup from 'yup';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { notification } from 'antd';
+
+import './antdNotificationStyles.css';
+import Header from '../Header';
+import { useCustomArticleMutation } from '../../slices/postAnArticle';
 
 import styles from './CustomArticle.module.scss';
 import customArticleStyles from './CustomArticle.module.scss';
 
-interface ICustomArticle {
-  title: string;
-  description: string;
-  text: string;
-  tagInput: string;
-  key: string;
-  items: Array<{ value: string }>;
+interface IArticleTag {
+  value: string;
 }
 
+export interface ICustomArticle {
+  title: string;
+  description: string;
+  body: string;
+  items: IArticleTag[];
+}
+
+
 const CustomArticle: FC = () => {
+  const [api, contextHolder] = notification.useNotification();
+
+  const openAntdNotification = (message: string, description: string): void => {
+    setTimeout(() => {
+      api.open({
+        className: 'ant-notification-notice-message',
+        key: 'updatable',
+        message,
+        description,
+        placement: 'topRight',
+        style:{ top: 20, right:10, color: message === 'Congratulations !' ? 'green' : 'red' },
+        duration: 3,
+      });
+    }, 1000);
+  };
+
   const schema = yup.object({
     title: yup
       .string()
@@ -29,7 +53,7 @@ const CustomArticle: FC = () => {
       .max(80)
       .transform((value) => (value.trim().length <= 2 ? null : value))
       .required(),
-    text: yup
+    body: yup
       .string()
       .min(3)
       .max(5000)
@@ -54,19 +78,33 @@ const CustomArticle: FC = () => {
     mode: 'onBlur',
   });
 
+  const [customArticleMutation] = useCustomArticleMutation(); //вставим инфо с toolkit
+
   const { fields, append, remove } = useFieldArray({ name: 'items', control });
-  const submitCustomArticle = (articleData: ICustomArticle) => {
+
+  const submitCustomArticle = async (articleData: ICustomArticle) => {
     for (const key of articleData.items) {
       if (key.value.trim() === '') {
         articleData.items.filter((item) => item.value !== key.value);
       }
     }
+    try {
+      const customArticle = await customArticleMutation(articleData).unwrap();
+      console.log(customArticle, 'customArticle');
 
-    console.log(articleData, 'articleData');
+      openAntdNotification(
+        'Congratulations !',
+        'A new post is added to METABLOG community',
+      );
+    } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      openAntdNotification('Oops !!!', 'Something went wrong, refresh the page and try again');
+    }
   };
-  console.log(errors, 'errors');
   return (
     <div className={customArticleStyles.main}>
+      <Header />
       <div className={customArticleStyles.container}>
         <h3 className={customArticleStyles.title}>Create new article</h3>
         <form onSubmit={handleSubmit(submitCustomArticle)}>
@@ -111,12 +149,12 @@ const CustomArticle: FC = () => {
               id="text"
               placeholder="Text"
               className={`${customArticleStyles.textArea} ${customArticleStyles.input}`}
-              {...register('text', { required: true })}
+              {...register('body', { required: true })}
             />
-            {errors.text && (
+            {errors.body && (
               <p
                 className={styles.inputErrorTextLabel}
-              >{`Text ${errors.text.message
+              >{`Text ${errors.body.message
                 ?.split(' ')
                 .slice(1)
                 .join(' ')}`}</p>
@@ -162,6 +200,7 @@ const CustomArticle: FC = () => {
               Add tag
             </button>
           </div>
+          {contextHolder}
           <button type="submit" className={customArticleStyles.sendButton}>
             Send
           </button>

@@ -83,6 +83,7 @@ const LoginPage: FC = () => {
       setIsLoginError(false);
       if ('user' in userDatas) {
         dispatch(uploadUserInfo({ userDatas: userDatas.user }));
+        localStorage.setItem('token', userDatas.user.token);
         dispatch(changeUserActiveStatus({ isUserLoggedIn: true }));
         return navigate('/profile');
       }

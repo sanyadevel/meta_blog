@@ -10,6 +10,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ children }) => {
+
   const isUserLoggedIn = useAppSelector(
     (state) => state.userInfo.isUserLoggedIn,
   );

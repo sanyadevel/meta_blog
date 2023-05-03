@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ArticleList from '../ArticleList';
 import { useAppDispatch, useAppSelector } from '../../store';
@@ -20,6 +20,8 @@ const UserPage = () => {
   const getLogoutedUser = () => {
     dispatch(uploadUserInfo({ userDatas: {} }));
     dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
+
+    localStorage.removeItem('token');
   };
 
   if (!isUserLoggedIn) {
@@ -31,7 +33,7 @@ const UserPage = () => {
     <div className={styles.container}>
       {isUserLoggedIn && (
         <Header>
-          <button className={styles.createArticle}>Create article</button>
+          <Link to='/profile/form' className={styles.createArticle}>Create article</Link>
           <h3 className={styles.username}>{userInfo?.username}</h3>
           <img className={styles.userAvatar} src={userInfo?.image || ''} alt='user avatar'/>
           <a href='/articles'
