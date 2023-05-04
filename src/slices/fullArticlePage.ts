@@ -26,7 +26,7 @@ export interface IFullArticleResponse {
 
 const getFullArticle = createApi({
   reducerPath: 'fullArticle',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.realworld.io/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
     fullArticle: builder.query<IFullArticleResponse, IFullArticle>({
       query: ({ slug }) => {

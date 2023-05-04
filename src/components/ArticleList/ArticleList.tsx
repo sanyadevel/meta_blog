@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import { Pagination } from 'antd';
 
-import { useGetArticlesQuery } from '../../logics/rtkQueryLogics/getArticlesFromApi';
+import { useGetArticlesQuery } from '../../slices/getArticlesFromApi';
 import Article from '../Article';
 import { AppDispatch, useAppDispatch, useAppSelector } from '../../store';
 import { changeArticlePage, getTotalCountPages } from '../../slices/articleSlice';
@@ -41,6 +41,10 @@ const ArticlesList: FC<IArticle> = () => {
     page: currentPage,
   });
 
+  useEffect(()=>{
+    console.log(data, 'data');
+  }, [data]);
+
   const memoizedPageCount = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -51,7 +55,8 @@ const ArticlesList: FC<IArticle> = () => {
 
   useEffect(() => {
     if (memoizedPageCount !== undefined) {
-      dispatch(getTotalCountPages(memoizedPageCount));
+      dispatch(getTotalCountPages(Math.ceil(memoizedPageCount / 5 )));
+      // поднимаем в стейт количество страниц для пагинации (по 5 статей на страницу)
     }
   }, [dispatch, memoizedPageCount]);
 
@@ -69,11 +74,11 @@ const ArticlesList: FC<IArticle> = () => {
       ))}
       <Pagination
         defaultCurrent={1}
-        total={totalCountPages * 10}
+        total={totalCountPages * 10 }
         size="default"
         style={{ textAlign: 'center', marginTop: 60, paddingBottom: 80 }}
         showSizeChanger={false}
-        onChange={(page: number) => dispatch(changeArticlePage(page))} // поднимаем в стейт номер страниц
+        onChange={(page: number) => dispatch(changeArticlePage(page - 1 ))} // поднимаем в стейт номер страниц
       />
     </div>
   );

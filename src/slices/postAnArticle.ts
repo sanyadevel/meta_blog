@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { ICustomArticle } from '../components/CustomArticle/CustomArticle';
 
 export interface ICustomArticleResponse {
   [key: string]: {
@@ -22,20 +21,27 @@ export interface ICustomArticleResponse {
   };
 }
 
+interface IArticle {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
 export const postArticle = createApi({
   reducerPath: 'postArticle',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.realworld.io/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
-    customArticle: builder.mutation<ICustomArticleResponse, ICustomArticle
+    customArticle: builder.mutation<ICustomArticleResponse, IArticle
     >({
       query: (customArticle) => ({
-        url: '/articles',
+        url: 'articles',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${localStorage.getItem('token')}`, // Replace with your JWT token
         },
-        body: JSON.stringify({ article: customArticle } ),
+        body: JSON.stringify({ 'article': customArticle } ),
       }),
     }),
   }),

@@ -1,12 +1,16 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import { articlesApi } from '../logics/rtkQueryLogics/getArticlesFromApi';
+import { articlesApi } from '../slices/getArticlesFromApi';
 import articleSlice from '../slices/articleSlice';
 import registerUser from '../slices/userRegistration';
 import userLogin from '../slices/userLogin';
-import userProfileInfo from '../slices/userProfileInfo';
 import getFullArticle from '../slices/fullArticlePage';
 import postArticle from '../slices/postAnArticle';
+import deleteArticle from '../slices/deleteArticle';
+import getCurrentUser from '../slices/getUser';
+import userProfileInfo from '../slices/userProfileInfo';
+import likeArticle from '../slices/likeAnArticle';
+import dislikeArticle from '../slices/dislikeAnArticle';
 
 export const rootReducer = combineReducers({
   articlesApi: articlesApi.reducer,
@@ -16,4 +20,8 @@ export const rootReducer = combineReducers({
   userInfo: userProfileInfo,
   fullArticle: getFullArticle.reducer,
   postArticle: postArticle.reducer,
+  deleteArticle: deleteArticle.reducer,
+  getCurrentUser: getCurrentUser.reducer,
+  likeArticle : likeArticle.reducer,
+  dislikeArticle : dislikeArticle.reducer,
 });

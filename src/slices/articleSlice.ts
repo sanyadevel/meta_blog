@@ -7,7 +7,7 @@ export interface IArticleState {
 }
 
 const initialState: IArticleState = {
-  currentPage: 1,
+  currentPage: 0,
   totalCountPages: 50,
   slug:'',
 };

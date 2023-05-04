@@ -5,6 +5,6 @@ export const callNotification = (message: string, type: 'success' | 'error') => 
 
   toastType(message, {
     position: toast.POSITION.TOP_LEFT,
-    autoClose: 3500,
+    autoClose: 2500,
   });
 };

@@ -3,10 +3,12 @@ import * as yup from 'yup';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { notification } from 'antd';
-
 import './antdNotificationStyles.css';
+import { Navigate, useNavigate } from 'react-router-dom';
+
 import Header from '../Header';
 import { useCustomArticleMutation } from '../../slices/postAnArticle';
+import { useAppSelector } from '../../store';
 
 import styles from './CustomArticle.module.scss';
 import customArticleStyles from './CustomArticle.module.scss';
@@ -19,7 +21,7 @@ export interface ICustomArticle {
   title: string;
   description: string;
   body: string;
-  items: IArticleTag[];
+  tagList: IArticleTag[];
 }
 
 
@@ -59,7 +61,7 @@ const CustomArticle: FC = () => {
       .max(5000)
       .transform((value) => (value.trim().length <= 3 ? null : value))
       .required(),
-    items: yup.array().of(
+    tagList: yup.array().of(
       yup.object().shape({
         value: yup.string().min(2).max(17).required('Tag cannot be empty'),
       }),
@@ -78,32 +80,40 @@ const CustomArticle: FC = () => {
     mode: 'onBlur',
   });
 
-  const [customArticleMutation] = useCustomArticleMutation(); //вставим инфо с toolkit
+  const [customArticleMutation] = useCustomArticleMutation();
+  const navigate = useNavigate();
+  const { fields, append, remove } = useFieldArray({ name: 'tagList', control });
 
-  const { fields, append, remove } = useFieldArray({ name: 'items', control });
+  const isUserLoggedIn = useAppSelector((state) => state.userInfo.isUserLoggedIn);
 
   const submitCustomArticle = async (articleData: ICustomArticle) => {
-    for (const key of articleData.items) {
+    const transformedArticleData = {
+      ...articleData,
+      tagList: articleData.tagList.map(tag => tag.value),
+    };
+
+    for (const key of articleData.tagList) {
       if (key.value.trim() === '') {
-        articleData.items.filter((item) => item.value !== key.value);
+        articleData.tagList.filter((tag) => tag.value !== key.value);
       }
     }
     try {
-      const customArticle = await customArticleMutation(articleData).unwrap();
-      console.log(customArticle, 'customArticle');
+      await customArticleMutation(transformedArticleData).unwrap();
 
       openAntdNotification(
         'Congratulations !',
         'A new post is added to METABLOG community',
       );
-    } catch (e) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      setTimeout(()=>{
+        navigate('/profile');
+      }, 2500);
+    } catch (err) {
       openAntdNotification('Oops !!!', 'Something went wrong, refresh the page and try again');
     }
   };
   return (
     <div className={customArticleStyles.main}>
+      {!isUserLoggedIn && <Navigate to='/sign-in' />}
       <Header />
       <div className={customArticleStyles.container}>
         <h3 className={customArticleStyles.title}>Create new article</h3>
@@ -168,13 +178,13 @@ const CustomArticle: FC = () => {
             <div className={customArticleStyles.tag} key={field.id}>
               <div>
                 <input
-                  {...register(`items.${index}.value`, {
+                  {...register(`tagList.${index}.value`, {
                     required: 'Tag is required',
                   })}
                   defaultValue={field.value}
                   className={customArticleStyles.customInput}
                 />
-                {errors?.items?.[index]?.value && (
+                {errors?.tagList?.[index]?.value && (
                   <p className={styles.inputErrorTextLabel}>
                     Tag value must be at least 2 characters
                   </p>

@@ -32,10 +32,6 @@ const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.userInfo.userDatas);
 
-  useEffect(() => {
-    console.log(userInfo, 'userInfo');
-  }, [userInfo]);
-
   const schema = yup
     .object({
       email: yup
@@ -88,8 +84,12 @@ const LoginPage: FC = () => {
         return navigate('/profile');
       }
     } catch (error: any) {
-      if (error?.status === 403) {
+      if (error?.status === 422) {
         setIsLoginError(true);
+
+        setTimeout(() => {
+          setIsLoginError(false);
+        }, 150);
       }
     }
     reset();
@@ -99,6 +99,7 @@ const LoginPage: FC = () => {
 
   return (
     <div className={loginPageStyles.main}>
+      <ToastContainer />
       <div
         className={`${loginPageStyles.container} ${signUpPageStyles.container}`}
       >
@@ -143,7 +144,6 @@ const LoginPage: FC = () => {
               </p>
             )}
           </div>
-          <ToastContainer />
           <input
             type="submit"
             className={`${signUpPageStyles.input} ${signUpPageStyles.submitButton}`}

@@ -19,12 +19,12 @@ export interface UserLoginResponse {
 
 const userLogin = createApi({
   reducerPath: 'userLogin',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.realworld.io/api/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
     loginUser: builder.mutation<UserLoginResponse, UserLoginDetails>({
       query: (userLoginDetails) => {
         return {
-          url: '/users/login',
+          url: 'users/login',
           method: 'POST',
           headers: {
             accept: 'application/json',

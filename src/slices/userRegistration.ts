@@ -20,12 +20,12 @@ export interface UserRegistrationResponse {
 
 const registerUser = createApi({
   reducerPath: 'registerUser',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.realworld.io/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
     registerUser: builder.mutation<UserRegistrationResponse, UserRegistrationnDetails>({
       query: (user) => {
         return {
-          url: '/users',
+          url: 'users',
           method: 'POST',
           headers: {
             accept: 'application/json',
