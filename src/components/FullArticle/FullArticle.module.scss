@@ -2,6 +2,9 @@ $red-color: rgba(245, 34, 45, 1);
 $green-color: rgba(82, 196, 26, 1);
 $simple-white-color: white;
 $blue-color: #1890ff;
+$base-font-size: 16px;
+$base-line-height: 1.5;
+$base-margin: 1em;
 
 * {
   font-family: "Inter", sans-serif;
@@ -14,7 +17,7 @@ $blue-color: #1890ff;
 
 .container {
   width: 70%;
-  height: auto; // static пока что
+  height: auto;
   background-color: white;
   margin: 30px auto;
   padding: 27px 19px;
@@ -121,5 +124,36 @@ header {
   &:hover {
     background-color: #dcf5ce;
     transition: 0.3s ease-in-out;
+  }
+}
+
+.markdownContainer {
+  padding: 0 30px;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: $base-margin;
+    margin-bottom: $base-margin / 2;
+  }
+
+  p {
+    margin-top: $base-margin / 2;
+    margin-bottom: $base-margin / 2;
+  }
+
+  ul,
+  ol {
+    margin-top: $base-margin / 2;
+    margin-bottom: $base-margin / 2;
+    padding-left: 1em;
+  }
+
+  li {
+    margin-top: $base-margin / 4;
+    margin-bottom: $base-margin / 4;
   }
 }

@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import Heart from 'react-heart';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import { IArticle } from '../ArticleList/ArticleList';
 import { formatDate } from '../../logics/date/formateDate';
@@ -8,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import { updateSlug } from '../../slices/articleSlice';
 import { useLikeArticleMutation } from '../../slices/likeAnArticle';
 import { useDislikeArticleMutation } from '../../slices/dislikeAnArticle';
+import { callNotification } from '../../logics/errors/callLoginErrors';
 
 import articleStyles from './Article.module.scss';
 
@@ -45,20 +47,34 @@ const Article: FC<IArticle> = ({
   };
 
   const toggleArticleLike = async () => {
-    setIsLikeButtonActive((prev) => !prev);
+
+    if (!isUserLoggedIn) {
+      callNotification(
+        'You are not logged in to like this article, please sign in and try later',
+        'error',
+      );
+      return null;
+    } else {
+      setIsLikeButtonActive((prev) => !prev);
+    }
+
     try {
       if (isLikeButtonActive) {
-        const unlikeArticleResponse = await dislikeArticleMutation(slug).unwrap();
-        console.log(unlikeArticleResponse, 'unlikeArticleResponse');
+        await dislikeArticleMutation(
+          slug,
+        ).unwrap();
+
       } else {
-        const likeArticleResponse = await likeArticleMutation(slug).unwrap();
-        console.log(likeArticleResponse, 'likeArticleResponse');
+        await likeArticleMutation(slug).unwrap();
       }
-    } catch (e) {}
+    } catch (e) {
+      callNotification('Something went wrong, please try later', 'error');
+    }
   };
 
   return (
     <div className={articleStyles.container}>
+      <ToastContainer />
       <main className={articleStyles.main}>
         <div className={articleStyles.header}>
           <h3
@@ -70,7 +86,7 @@ const Article: FC<IArticle> = ({
           <div className={articleStyles.likeBtn}>
             <Heart
               isActive={isLikeButtonActive}
-              onClick={() => (isUserLoggedIn ? toggleArticleLike() : null)}
+              onClick={() => toggleArticleLike()}
               animationScale={1.1}
             />
           </div>
@@ -84,7 +100,7 @@ const Article: FC<IArticle> = ({
           ))}
         </div>
         <p className={articleStyles.description}>
-          {description?.split(' ').slice(0, 28).join(' ')}
+          {description?.split(' ').slice(0, 58).join(' ')}
         </p>
       </main>
       <legend className={articleStyles.legend}>

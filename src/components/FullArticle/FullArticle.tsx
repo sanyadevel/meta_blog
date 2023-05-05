@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Popconfirm } from 'antd';
 import Heart from 'react-heart';
@@ -68,13 +68,9 @@ const FullArticle: FC = () => {
   };
 
   const handleCancel = (): void => {
-    console.log('Clicked cancel button'); //потом потребуется для удаления
     setIsOpenPopup(false);
   };
 
-  useEffect(() => {
-    console.log(data, 'data');
-  }, [data]);
 
   return (
     <>
@@ -144,7 +140,7 @@ const FullArticle: FC = () => {
                 ''
               )}
             </div>
-            <main className={styles.mainBody}>
+            <main className={styles.markdownContainer}>
               <ReactMarkdown>{data?.article?.body || ''}</ReactMarkdown>
             </main>
           </div>

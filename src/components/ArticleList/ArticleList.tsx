@@ -37,7 +37,7 @@ const ArticlesList: FC<IArticle> = () => {
   ); // get current page from store
 
   const { data, error, isLoading } = useGetArticlesQuery({
-    limit: 5,
+    limit: 6,
     page: currentPage,
   });
 
@@ -76,7 +76,7 @@ const ArticlesList: FC<IArticle> = () => {
         defaultCurrent={1}
         total={totalCountPages * 10 }
         size="default"
-        style={{ textAlign: 'center', marginTop: 60, paddingBottom: 80 }}
+        style={{ textAlign: 'center', marginTop: 60, paddingBottom: 60 }}
         showSizeChanger={false}
         onChange={(page: number) => dispatch(changeArticlePage(page - 1 ))} // поднимаем в стейт номер страниц
       />

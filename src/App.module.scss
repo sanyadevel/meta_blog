@@ -8,5 +8,5 @@ $background-color: #ebeef3;
 
 .container {
   background-color: $background-color;
-  height:auto;
+  min-height: 100vh;
 }
