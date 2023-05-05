@@ -4,7 +4,7 @@ export interface IUserInfo {
   userDatas?: {
     bio?: null | string;
     email?: string;
-    image?: string | null
+    image?: string | null;
     token?: string;
     username?: string;
   };

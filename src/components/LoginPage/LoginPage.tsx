@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -16,11 +16,16 @@ import { changeUserActiveStatus, uploadUserInfo } from '../../slices/userProfile
 import loginPageStyles from './LoginPage.module.scss';
 
 const LoginPage: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] =
     useState<boolean>(true);
 
   const [isLoginError, setIsLoginError] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoginError) {
@@ -29,8 +34,14 @@ const LoginPage: FC = () => {
   }, [isLoginError]);
 
   const [loginUserMutation] = useLoginUserMutation();
-  const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.userInfo.userDatas);
+
+  // useLayoutEffect(() => {
+  //   if (pathname === '/sign-in') {
+  //     dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
+  //     localStorage.removeItem('token');
+  //   }
+  // }, [pathname]);
 
   const schema = yup
     .object({
@@ -76,11 +87,16 @@ const LoginPage: FC = () => {
 
     try {
       const userDatas = await loginUserMutation(userLoginDatas).unwrap();
+      console.log(userDatas, 'userDatas');
       setIsLoginError(false);
+
       if ('user' in userDatas) {
         dispatch(uploadUserInfo({ userDatas: userDatas.user }));
+
         localStorage.setItem('token', userDatas.user.token);
+
         dispatch(changeUserActiveStatus({ isUserLoggedIn: true }));
+
         return navigate('/profile');
       }
     } catch (error: any) {
@@ -126,6 +142,7 @@ const LoginPage: FC = () => {
               </p>
             )}
           </div>
+
           <label className={signUpPageStyles.label}>Password</label>
           <div className={signUpPageStyles.inputWrapper}>
             <input

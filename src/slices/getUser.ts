@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 interface ICurrentUserToken {
-  token:string;
+  token?:string;
 }
 
 interface ICurrentUserResponse {
@@ -18,7 +18,7 @@ export const getCurrentUser = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
     currentUser: builder.query<ICurrentUserResponse, ICurrentUserToken>({
-      query: (slug) => ({
+      query: () => ({
         url: 'user',
         method: 'GET',
         headers: {

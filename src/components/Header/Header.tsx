@@ -1,19 +1,35 @@
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FC, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useAppSelector } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
+import styles from '../UserPage/UserPage.module.scss';
+import { changeUserActiveStatus, uploadUserInfo } from '../../slices/userProfileInfo';
 
 import headerStyles from './Header.module.scss';
 
-interface HeaderProps {
-  children?: React.ReactNode;
-}
+const Header: FC = () => {
 
-const Header: FC<HeaderProps> = ({ children }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const isUserLoggedIn = useAppSelector(
     (state) => state.userInfo.isUserLoggedIn,
   );
+  const userInfo = useAppSelector((state) => state.userInfo.userDatas);
+
+  const getLogoutedUser = () => {
+    dispatch(uploadUserInfo({ userDatas: {} }));
+    dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
+
+    localStorage.removeItem('token');
+  };
+
+  useEffect(()=>{
+    if (!isUserLoggedIn) {
+      navigate('/articles');
+    }
+  }, [isUserLoggedIn]);
+
 
   return !isUserLoggedIn ? (
     <div className={headerStyles.items}>
@@ -40,7 +56,20 @@ const Header: FC<HeaderProps> = ({ children }) => {
       <a href="/" className={headerStyles.listDecoration}>
         META_BLOG
       </a>
-      <div className={headerStyles.childrenContainer}>{children}</div>
+      <div className={headerStyles.childrenContainer}>
+        <Link to='/profile/form' className={styles.createArticle}>Create article</Link>
+        <h3 className={styles.username}>{userInfo?.username}</h3>
+        <img className={styles.userAvatar} src={userInfo?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'} alt='user avatar'/>
+        <a href='/articles'
+           className={`${
+             (headerStyles.listDecoration,
+             headerStyles.listDecoration__logoutBackground)
+           }`}
+           onClick={getLogoutedUser}
+        >
+          Logout
+        </a>
+      </div>
     </div>
   );
 };

@@ -71,7 +71,6 @@ const FullArticle: FC = () => {
     setIsOpenPopup(false);
   };
 
-
   return (
     <>
       {isLoading ? (
@@ -110,11 +109,12 @@ const FullArticle: FC = () => {
                 </div>
 
                 <img
-                  src={data?.article?.author.image}
+                  src={data?.article.author.image}
                   className={styles.userAvatar}
                 />
               </div>
             </header>
+
             <div className={styles.descriptionContainer}>
               <p className={styles.description}>{data?.article?.description}</p>
               {isUserLoggedIn ? (

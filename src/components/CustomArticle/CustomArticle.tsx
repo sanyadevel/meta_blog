@@ -6,7 +6,6 @@ import { notification } from 'antd';
 import './antdNotificationStyles.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import Header from '../Header';
 import { useCustomArticleMutation } from '../../slices/postAnArticle';
 import { useAppSelector } from '../../store';
 
@@ -114,7 +113,6 @@ const CustomArticle: FC = () => {
   return (
     <div className={customArticleStyles.main}>
       {!isUserLoggedIn && <Navigate to='/sign-in' />}
-      <Header />
       <div className={customArticleStyles.container}>
         <h3 className={customArticleStyles.title}>Create new article</h3>
         <form onSubmit={handleSubmit(submitCustomArticle)}>

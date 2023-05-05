@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -8,6 +8,8 @@ import { ToastContainer } from 'react-toastify';
 import { emailRegex } from '../../variables/emailRegex';
 import { useRegisterUserMutation } from '../../slices/userRegistration';
 import { callNotification } from '../../logics/errors/callLoginErrors';
+import { useAppDispatch } from '../../store';
+import { changeUserActiveStatus } from '../../slices/userProfileInfo';
 
 import signUpPageStyles from './SignUpPage.module.scss';
 
@@ -18,13 +20,24 @@ export interface IRegistrationErrors {
 }
 
 const SignUpPage: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const location = useLocation();
+  const { pathname } = location;
+
+
   const [registerUser] = useRegisterUserMutation();
   const [registrationErrors, setRegistrationErrors] =
     useState<IRegistrationErrors>({});
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [isSignUpErrors, setIsSignUpErrors] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (pathname === '/sign-up') {
+      dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
+      localStorage.removeItem('token');
+    }
+  }, [pathname]);
 
   const schema = yup
     .object({
@@ -230,5 +243,3 @@ const SignUpPage: FC = () => {
 };
 
 export default SignUpPage;
-
-//sdfgsdfgsdfg@gmail.com

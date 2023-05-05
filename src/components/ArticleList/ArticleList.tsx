@@ -41,9 +41,6 @@ const ArticlesList: FC<IArticle> = () => {
     page: currentPage,
   });
 
-  useEffect(()=>{
-    console.log(data, 'data');
-  }, [data]);
 
   const memoizedPageCount = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -55,7 +52,7 @@ const ArticlesList: FC<IArticle> = () => {
 
   useEffect(() => {
     if (memoizedPageCount !== undefined) {
-      dispatch(getTotalCountPages(Math.ceil(memoizedPageCount / 5 )));
+      dispatch(getTotalCountPages(Math.ceil(memoizedPageCount / 6 )));
       // поднимаем в стейт количество страниц для пагинации (по 5 статей на страницу)
     }
   }, [dispatch, memoizedPageCount]);
