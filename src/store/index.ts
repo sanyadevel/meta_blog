@@ -11,6 +11,7 @@ import deleteArticle from '../slices/deleteArticle';
 import getCurrentUser from '../slices/getUser';
 import likeArticle from '../slices/likeAnArticle';
 import dislikeArticle from '../slices/dislikeAnArticle';
+import editUserInfo from '../slices/editUserInfo';
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -24,7 +25,8 @@ export const store = configureStore({
       .concat(deleteArticle.middleware)
       .concat(getCurrentUser.middleware)
       .concat(likeArticle.middleware)
-      .concat(dislikeArticle.middleware),
+      .concat(dislikeArticle.middleware)
+      .concat(editUserInfo.middleware),
 
 });
 

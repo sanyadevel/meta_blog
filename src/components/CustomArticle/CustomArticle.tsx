@@ -103,8 +103,9 @@ const CustomArticle: FC = () => {
         'Congratulations !',
         'A new post is added to METABLOG community',
       );
+
       setTimeout(()=>{
-        navigate('/profile');
+        navigate('/user');
       }, 2500);
     } catch (err) {
       openAntdNotification('Oops !!!', 'Something went wrong, refresh the page and try again');

@@ -11,6 +11,7 @@ import getCurrentUser from '../slices/getUser';
 import userProfileInfo from '../slices/userProfileInfo';
 import likeArticle from '../slices/likeAnArticle';
 import dislikeArticle from '../slices/dislikeAnArticle';
+import editUserInfo from '../slices/editUserInfo';
 
 export const rootReducer = combineReducers({
   articlesApi: articlesApi.reducer,
@@ -24,4 +25,5 @@ export const rootReducer = combineReducers({
   getCurrentUser: getCurrentUser.reducer,
   likeArticle : likeArticle.reducer,
   dislikeArticle : dislikeArticle.reducer,
+  editUserInfo:editUserInfo.reducer,
 });

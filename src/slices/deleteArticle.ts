@@ -5,7 +5,7 @@ export const deleteArticle = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
     deleteArticle: builder.mutation({
-      query: (slug) => ({
+      query: (slug:string) => ({
         url: `articles/${slug}`,
         method: 'DELETE',
         headers: {

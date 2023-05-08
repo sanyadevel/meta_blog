@@ -95,7 +95,7 @@ const Article: FC<IArticle> = ({
         <div className={articleStyles.tags}>
           {tagList?.map((tag) => (
             <span className={articleStyles.tag} key={crypto.randomUUID()}>
-              {tag}
+              {tag.split(' ').slice(0, 17).join(' ')}
             </span>
           ))}
         </div>

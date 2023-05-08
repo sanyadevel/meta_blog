@@ -5,7 +5,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 
-import { emailRegex } from '../../variables/emailRegex';
 import { useRegisterUserMutation } from '../../slices/userRegistration';
 import { callNotification } from '../../logics/errors/callLoginErrors';
 import { useAppDispatch } from '../../store';
@@ -47,13 +46,8 @@ const SignUpPage: FC = () => {
         .min(11)
         .max(40)
         .required()
-        .test(
-          'is-valid-email',
-          'Please enter a valid email address',
-          (value) => {
-            return emailRegex.test(value);
-          },
-        ),
+        .email('Please enter a valid email address'),
+
       password: yup.string().min(6).max(40).required('Password is required'),
       passwordConfirmation: yup
         .string()

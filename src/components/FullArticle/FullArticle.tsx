@@ -34,7 +34,7 @@ const FullArticle: FC = () => {
       await deleteArticle(slug).unwrap();
       callNotification('Article was deleted', 'success');
       setTimeout(()=>{
-        navigate('/profile');
+        navigate('/user');
       }, 2500);
 
     } catch (err: any) {
@@ -44,7 +44,7 @@ const FullArticle: FC = () => {
           'error',
         );
         setTimeout(()=>{
-          navigate('/profile');
+          navigate('/user');
         }, 2500);
 
       }
@@ -94,7 +94,7 @@ const FullArticle: FC = () => {
                 </div>
                 {data?.article?.tagList.map((tag) => (
                   <span key={tag} className={styles.tag}>
-                    {tag}
+                    {tag.split(' ').slice(0, 17).join(' ')}
                   </span>
                 ))}
               </div>

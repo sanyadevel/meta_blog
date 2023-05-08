@@ -1,4 +1,4 @@
-*{
+* {
   font-family: "Inter", sans-serif;
 }
 
@@ -6,11 +6,11 @@ $green-border-color: #52c41a;
 $white-color: white;
 $black-color: black;
 
-.container{
-  height:auto;
+.container {
+  height: auto;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,13 +37,20 @@ $black-color: black;
   }
 }
 
-.username{
-  font-size: 18px;
+.username {
+  font-size: 20px;
   font-style: normal;
+  text-decoration: none;
+  color: $black-color;
+  cursor: pointer;
+
+  &:hover {
+    border-bottom: 1px solid $black-color;
+  }
 }
 
-.userAvatar{
+.userAvatar {
   border-radius: 50%;
-  width: 46px;
-  height: 46px;
+  width: 55px;
+  height: 55px;
 }

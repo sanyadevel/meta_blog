@@ -13,6 +13,7 @@ import CustomArticle from './components/CustomArticle';
 import FullArticle from './components/FullArticle';
 import { useCurrentUserQuery } from './slices/getUser';
 import { changeUserActiveStatus, uploadUserInfo } from './slices/userProfileInfo';
+import EditedUser from './components/EditedUser';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -40,8 +41,9 @@ const App: FC = () => {
               <Route path='/articles/:slug' element={<FullArticle/>}/>
               <Route path="/sign-in" element={<LoginPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
-              <Route path="/profile" element={<UserPage/>} />
-              <Route path="profile/form" element={<CustomArticle/>} />
+              <Route path="/user" element={<UserPage/>} />
+              <Route path="user/new-article" element={<CustomArticle/>} />
+              <Route path="/profile" element={<EditedUser/>}/>
               <Route path="*" element={<PageIsNotFound/>} />
             </Routes>
           </Router>

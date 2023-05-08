@@ -5,13 +5,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 
-import { emailRegex } from '../../variables/emailRegex';
 import signUpPageStyles from '../SignUpPage/SignUpPage.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import { useLoginUserMutation, UserLoginDetails } from '../../slices/userLogin';
 import { callNotification } from '../../logics/errors/callLoginErrors';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { changeUserActiveStatus, uploadUserInfo } from '../../slices/userProfileInfo';
+import { emailRegex } from '../../variables/emailRegex';
 
 import loginPageStyles from './LoginPage.module.scss';
 
@@ -36,20 +36,13 @@ const LoginPage: FC = () => {
   const [loginUserMutation] = useLoginUserMutation();
   const userInfo = useAppSelector((state) => state.userInfo.userDatas);
 
-  // useLayoutEffect(() => {
-  //   if (pathname === '/sign-in') {
-  //     dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
-  //     localStorage.removeItem('token');
-  //   }
-  // }, [pathname]);
-
   const schema = yup
     .object({
       email: yup
         .string()
         .min(6)
         .max(35)
-        .matches(emailRegex, 'Please enter a valid email address')
+        .email('Please enter a valid email address')
         .required(),
       password: yup.string().min(6).max(25).required(),
     })
@@ -87,7 +80,7 @@ const LoginPage: FC = () => {
 
     try {
       const userDatas = await loginUserMutation(userLoginDatas).unwrap();
-      console.log(userDatas, 'userDatas');
+
       setIsLoginError(false);
 
       if ('user' in userDatas) {
@@ -97,7 +90,7 @@ const LoginPage: FC = () => {
 
         dispatch(changeUserActiveStatus({ isUserLoggedIn: true }));
 
-        return navigate('/profile');
+        return navigate('/user');
       }
     } catch (error: any) {
       if (error?.status === 422) {

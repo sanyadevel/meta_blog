@@ -8,7 +8,6 @@ import { changeUserActiveStatus, uploadUserInfo } from '../../slices/userProfile
 import headerStyles from './Header.module.scss';
 
 const Header: FC = () => {
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -24,12 +23,11 @@ const Header: FC = () => {
     localStorage.removeItem('token');
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!isUserLoggedIn) {
       navigate('/articles');
     }
   }, [isUserLoggedIn]);
-
 
   return !isUserLoggedIn ? (
     <div className={headerStyles.items}>
@@ -57,15 +55,30 @@ const Header: FC = () => {
         META_BLOG
       </a>
       <div className={headerStyles.childrenContainer}>
-        <Link to='/profile/form' className={styles.createArticle}>Create article</Link>
-        <h3 className={styles.username}>{userInfo?.username}</h3>
-        <img className={styles.userAvatar} src={userInfo?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'} alt='user avatar'/>
-        <a href='/articles'
-           className={`${
-             (headerStyles.listDecoration,
-             headerStyles.listDecoration__logoutBackground)
-           }`}
-           onClick={getLogoutedUser}
+        <Link to="/user/new-article" className={styles.createArticle}>
+          Create article
+        </Link>
+        <Link to="/profile" className={styles.username}>
+          {userInfo?.username}
+        </Link>
+
+        <Link to="/profile">
+        <img
+          className={styles.userAvatar}
+          src={
+            userInfo?.image ||
+            'https://static.productionready.io/images/smiley-cyrus.jpg'
+          }
+          alt="avatar"
+        />
+        </Link>
+        <a
+          href="/articles"
+          className={`${
+            (headerStyles.listDecoration,
+            headerStyles.listDecoration__logoutBackground)
+          }`}
+          onClick={getLogoutedUser}
         >
           Logout
         </a>
