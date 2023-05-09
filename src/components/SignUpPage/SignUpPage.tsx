@@ -203,17 +203,19 @@ const SignUpPage: FC = () => {
             )}
           </div>
           <span className={signUpPageStyles.brakeLine} />
-          <div className={signUpPageStyles.agreeStatement}>
+          <label className={signUpPageStyles.agreeStatement}>
             <input
+              className={signUpPageStyles.realCheckbox}
               type="checkbox"
               id="agree"
               checked={isChecked}
               onChange={() => setIsChecked((prev) => !prev)}
             />
+            <span className={signUpPageStyles.customCheckbox}></span>
             <label className={signUpPageStyles.label} htmlFor="agree">
               I agree to the processing of my personal information
             </label>
-          </div>
+          </label>
           <input
             type="submit"
             className={`${signUpPageStyles.input} ${signUpPageStyles.submitButton}`}

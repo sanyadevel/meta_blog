@@ -11,7 +11,7 @@ interface ArticlesResponse {
 
 interface QueryParams {
   limit: number;
-  page?: number;
+  offset?: number;
 }
 
 export const articlesApi = createApi({
@@ -21,8 +21,14 @@ export const articlesApi = createApi({
   }),
   endpoints: (builder) => ({
     getArticles: builder.query<ArticlesResponse, QueryParams>({
-      query: (params:QueryParams) =>
-        `articles?limit=${params.limit}&offset=${params.page}`,
+      query: (params:QueryParams) =>({
+        url: `articles?limit=${params.limit}&offset=${params.offset}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${localStorage.getItem('token')}`, // Replace with JWT token
+        },
+      }),
     }),
   }),
   keepUnusedDataFor: 0,
