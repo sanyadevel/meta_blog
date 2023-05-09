@@ -10,7 +10,7 @@ export const likeArticle = createApi({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Token ${localStorage.getItem('token')}`, // Replace with your JWT token
+          Authorization: `Token ${localStorage.getItem('token')}`, // Replace with JWT token
         },
       }),
     }),

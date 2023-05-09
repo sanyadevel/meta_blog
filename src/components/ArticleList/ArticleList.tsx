@@ -36,12 +36,13 @@ const ArticlesList: FC<IArticle> = () => {
     (state) => state.article.currentPage,
   ); // get current page from store
 
+  console.log(currentPage);
+
   const { data, error, isLoading } = useGetArticlesQuery({
-    limit: 6,
-    page: currentPage,
+    limit: 5,
+    offset: currentPage,
   });
-
-
+  console.log(data, 'data');
   const memoizedPageCount = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -52,12 +53,11 @@ const ArticlesList: FC<IArticle> = () => {
 
   useEffect(() => {
     if (memoizedPageCount !== undefined) {
-      dispatch(getTotalCountPages(Math.ceil(memoizedPageCount / 6 )));
+      dispatch(getTotalCountPages(Math.ceil(memoizedPageCount / 5 )));
       // поднимаем в стейт количество страниц для пагинации (по 5 статей на страницу)
     }
   }, [dispatch, memoizedPageCount]);
 
-  if (isLoading) return <Loader />;
   if (error) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -66,6 +66,7 @@ const ArticlesList: FC<IArticle> = () => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       {data?.articles.map((article: IArticle) => (
         <Article key={article.slug} {...article} />
       ))}
@@ -75,7 +76,7 @@ const ArticlesList: FC<IArticle> = () => {
         size="default"
         style={{ textAlign: 'center', marginTop: 60, paddingBottom: 60 }}
         showSizeChanger={false}
-        onChange={(page: number) => dispatch(changeArticlePage(page - 1 ))} // поднимаем в стейт номер страниц
+        onChange={(page: number) => dispatch(changeArticlePage((page - 1 ) * 5 ))} // поднимаем в стейт номер страниц
       />
     </div>
   );

@@ -104,6 +104,7 @@ const EditedUser: FC = () => {
             }
             defaultValue={email}
             placeholder="Enter an email address"
+            disabled
             {...register('email', { required: 'Email Address is required' })}
           />
             {errors.email && (

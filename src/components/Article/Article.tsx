@@ -60,12 +60,15 @@ const Article: FC<IArticle> = ({
 
     try {
       if (isLikeButtonActive) {
-        await dislikeArticleMutation(
+        const a =  await dislikeArticleMutation(
           slug,
         ).unwrap();
 
+        console.log(a, 'unliked');
+
       } else {
-        await likeArticleMutation(slug).unwrap();
+        const b =  await likeArticleMutation(slug).unwrap();
+        console.log(b, 'liked');
       }
     } catch (e) {
       callNotification('Something went wrong, please try later', 'error');

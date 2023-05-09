@@ -4,7 +4,7 @@ $daybreak-blue-color: #1890ff;
 $daybreak-blue-color-hover: #41a2ff;
 $gray-color: rgb(161, 161, 161);
 $input-error-color: rgba(245, 34, 45, 1);
-$input-disabled-button-color:#c7c7c7;
+$input-disabled-button-color: #c7c7c7;
 
 .main {
   padding-bottom: 100px;
@@ -94,8 +94,8 @@ $input-disabled-button-color:#c7c7c7;
 }
 
 .submitButton:disabled {
-    background-color: $input-disabled-button-color;
-    cursor: not-allowed;
+  background-color: $input-disabled-button-color;
+  cursor: not-allowed;
 }
 .brakeLine {
   width: 420px;
@@ -107,6 +107,7 @@ $input-disabled-button-color:#c7c7c7;
 .agreeStatement {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 
 .alreadyHaveAccount {
@@ -125,6 +126,58 @@ $input-disabled-button-color:#c7c7c7;
   }
 }
 
-.notification{
-  margin-top:95px;
+.notification {
+  margin-top: 95px;
+}
+
+.realCheckbox {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.customCheckbox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid $daybreak-blue-color;
+  border-radius: 2px;
+  color: rgba(154, 187, 206, 1);
+  background-color: $white-color;
+  vertical-align: middle;
+  margin-right: 5px;
+  position: relative;
+  margin-left: 20px;
+}
+.customCheckbox:hover {
+  border: 2px solid $daybreak-blue-color;
+}
+
+.customCheckbox::before {
+  content: "";
+
+  display: inline-block;
+  width: 12px;
+  height: 8px;
+  background-image: url("../../assets/images/checked.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 50%) scale(0);
+  margin-top: 1px;
+  transition: 0.1s ease-in;
+}
+
+.realCheckbox:checked + .customCheckbox::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.realCheckbox:checked + .customCheckbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid $daybreak-blue-color;
 }
