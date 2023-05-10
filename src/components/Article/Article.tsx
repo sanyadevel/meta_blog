@@ -1,15 +1,13 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import Heart from 'react-heart';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { IArticle } from '../ArticleList/ArticleList';
 import { formatDate } from '../../logics/date/formateDate';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { updateSlug } from '../../slices/articleSlice';
-import { useLikeArticleMutation } from '../../slices/likeAnArticle';
-import { useDislikeArticleMutation } from '../../slices/dislikeAnArticle';
-import { callNotification } from '../../logics/errors/callLoginErrors';
+import { useAppDispatch } from '../../store';
+import { updateArticleFavoriteStatus, updateFavoritesCount, updateSlug } from '../../slices/articleSlice';
+import useToggleArticleLike from '../../hooks/useToggleArticleLike';
 
 import articleStyles from './Article.module.scss';
 
@@ -18,61 +16,22 @@ const Article: FC<IArticle> = ({
   tagList,
   description,
   author,
+  favorited,
   createdAt,
   slug,
   favoritesCount,
 }) => {
-  const [isLikeButtonActive, setIsLikeButtonActive] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isUserLoggedIn = useAppSelector(
-    (state) => state.userInfo.isUserLoggedIn,
-  );
-  const [
-    likeArticleMutation,
-    { isLoading: isLikeLoading, isError: isLikeError, error: likeError },
-  ] = useLikeArticleMutation();
-  const [
-    dislikeArticleMutation,
-    {
-      isLoading: isDislikeLoading,
-      isError: isDislikeError,
-      error: dislikeError,
-    },
-  ] = useDislikeArticleMutation();
 
-  const getSlugFromTitle = (slugTitle: string): void => {
+  const { toggleArticleLike, isLikeButtonActive, favoriteCounter } = useToggleArticleLike(slug || '', favorited || false, favoritesCount || 0);
+
+  const getFullArticle = (slugTitle: string): void => {
     dispatch(updateSlug(slugTitle));
+    dispatch(updateArticleFavoriteStatus(isLikeButtonActive || false));
+    dispatch(updateFavoritesCount(favoriteCounter || 0));
+
     return navigate(`/articles/${slugTitle}`);
-  };
-
-  const toggleArticleLike = async () => {
-
-    if (!isUserLoggedIn) {
-      callNotification(
-        'You are not logged in to like this article, please sign in and try later',
-        'error',
-      );
-      return null;
-    } else {
-      setIsLikeButtonActive((prev) => !prev);
-    }
-
-    try {
-      if (isLikeButtonActive) {
-        const a =  await dislikeArticleMutation(
-          slug,
-        ).unwrap();
-
-        console.log(a, 'unliked');
-
-      } else {
-        const b =  await likeArticleMutation(slug).unwrap();
-        console.log(b, 'liked');
-      }
-    } catch (e) {
-      callNotification('Something went wrong, please try later', 'error');
-    }
   };
 
   return (
@@ -82,18 +41,18 @@ const Article: FC<IArticle> = ({
         <div className={articleStyles.header}>
           <h3
             className={articleStyles.title}
-            onClick={() => getSlugFromTitle(slug || '')}
+            onClick={() => getFullArticle(slug || '')}
           >
             {title?.split(' ').slice(0, 13).join(' ')}
           </h3>
           <div className={articleStyles.likeBtn}>
             <Heart
               isActive={isLikeButtonActive}
-              onClick={() => toggleArticleLike()}
+              onClick={() =>toggleArticleLike()}
               animationScale={1.1}
             />
           </div>
-          <span>{favoritesCount}</span>
+          <span>{favoriteCounter}</span>
         </div>
         <div className={articleStyles.tags}>
           {tagList?.map((tag) => (

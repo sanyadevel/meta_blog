@@ -68,7 +68,7 @@ const ArticlesList: FC<IArticle> = () => {
     <div>
       {isLoading && <Loader />}
       {data?.articles.map((article: IArticle) => (
-        <Article key={article.slug} {...article} />
+        <Article key={article.slug} {...article}/>
       ))}
       <Pagination
         defaultCurrent={1}

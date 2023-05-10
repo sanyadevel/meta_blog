@@ -13,14 +13,21 @@ import Loader from '../Loader';
 import { useDeleteArticleMutation } from '../../slices/deleteArticle';
 import { callNotification } from '../../logics/errors/callLoginErrors';
 import articleStyles from '../Article/Article.module.scss';
+import useToggleArticleLike from '../../hooks/useToggleArticleLike';
 
 import styles from './FullArticle.module.scss';
 
 const FullArticle: FC = () => {
-  const slug = useAppSelector((state) => state.article.slug) || '';
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
   const [isPopupLoading, setIsPopupLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
+
+  const slug = useAppSelector((state) => state.article.slug) || '';
+  const favoritesCount = useAppSelector(state=>state.article.favoritesCount);
+  const isFavoritedArticle = useAppSelector(state=>state.article.isFavoritedArticle);
+
+  const { toggleArticleLike, isLikeButtonActive, favoriteCounter } = useToggleArticleLike(slug || '', isFavoritedArticle, favoritesCount || 0);
 
   const isUserLoggedIn = useAppSelector(
     (state) => state.userInfo.isUserLoggedIn,
@@ -28,6 +35,7 @@ const FullArticle: FC = () => {
 
   const { data, error, isLoading } = useFullArticleQuery({ slug });
   const [deleteArticle] = useDeleteArticleMutation();
+
 
   const handleDelete = async () => {
     try {
@@ -86,11 +94,11 @@ const FullArticle: FC = () => {
                   <div className={articleStyles.likeBtn}>
                     <Heart
                       animationScale={1.1}
-                      onClick={() => null}
-                      isActive={false}
+                      onClick={() => toggleArticleLike()}
+                      isActive={isLikeButtonActive}
                     />
                   </div>
-                  <span>{data?.article?.favoritesCount}</span>
+                  <span>{favoriteCounter}</span>
                 </div>
                 {data?.article?.tagList.map((tag) => (
                   <span key={tag} className={styles.tag}>
