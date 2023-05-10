@@ -24,12 +24,12 @@ const Article: FC<IArticle> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { toggleArticleLike, isLikeButtonActive, favoriteCounter } = useToggleArticleLike(slug || '', favorited || false, favoritesCount || 0);
+  const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } = useToggleArticleLike(slug || '', favorited || false, favoritesCount || 0);
 
   const getFullArticle = (slugTitle: string): void => {
     dispatch(updateSlug(slugTitle));
     dispatch(updateArticleFavoriteStatus(isLikeButtonActive || false));
-    dispatch(updateFavoritesCount(favoriteCounter || 0));
+    dispatch(updateFavoritesCount(favoriteLikesCount || 0));
 
     return navigate(`/articles/${slugTitle}`);
   };
@@ -52,7 +52,7 @@ const Article: FC<IArticle> = ({
               animationScale={1.1}
             />
           </div>
-          <span>{favoriteCounter}</span>
+          <span>{favoriteLikesCount}</span>
         </div>
         <div className={articleStyles.tags}>
           {tagList?.map((tag) => (

@@ -11,7 +11,7 @@ const useToggleArticleLike = (
   favoritesCount: number,
 ) => {
   const [isLikeButtonActive, setIsLikeButtonActive] = useState<boolean>(isFavorited);
-  const [favoriteCounter, setFavoriteCounter] = useState<number>(favoritesCount);
+  const [favoriteLikesCount, setFavoriteLikesCount] = useState<number>(favoritesCount);
 
   const [likeArticleMutation] = useLikeArticleMutation();
   const [dislikeArticleMutation] = useDislikeArticleMutation();
@@ -34,21 +34,21 @@ const useToggleArticleLike = (
 
     try {
       if (!isLikeButtonActive) {
-        setFavoriteCounter((prev) => prev + 1);
+        setFavoriteLikesCount((prev) => prev + 1);
         toggleLikedArticleResponse =  await likeArticleMutation(slug).unwrap();
 
       } else {
-        setFavoriteCounter((prev) => prev - 1);
+        setFavoriteLikesCount((prev) => prev - 1);
         toggleLikedArticleResponse = await dislikeArticleMutation(slug).unwrap();
 
       }
-      console.log(toggleLikedArticleResponse);
+
     } catch (e) {
       callNotification('Something went wrong, please try later', 'error');
     }
   };
 
-  return { toggleArticleLike, isLikeButtonActive, favoriteCounter };
+  return { toggleArticleLike, isLikeButtonActive, favoriteLikesCount };
 };
 
 export default useToggleArticleLike;

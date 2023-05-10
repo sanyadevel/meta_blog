@@ -24,10 +24,15 @@ const FullArticle: FC = () => {
   const navigate = useNavigate();
 
   const slug = useAppSelector((state) => state.article.slug) || '';
-  const favoritesCount = useAppSelector(state=>state.article.favoritesCount);
-  const isFavoritedArticle = useAppSelector(state=>state.article.isFavoritedArticle);
+  const favoritesCount = useAppSelector(
+    (state) => state.article.favoritesCount,
+  );
+  const isFavoritedArticle = useAppSelector(
+    (state) => state.article.isFavoritedArticle,
+  );
 
-  const { toggleArticleLike, isLikeButtonActive, favoriteCounter } = useToggleArticleLike(slug || '', isFavoritedArticle, favoritesCount || 0);
+  const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } =
+    useToggleArticleLike(slug || '', isFavoritedArticle, favoritesCount || 0);
 
   const isUserLoggedIn = useAppSelector(
     (state) => state.userInfo.isUserLoggedIn,
@@ -36,25 +41,22 @@ const FullArticle: FC = () => {
   const { data, error, isLoading } = useFullArticleQuery({ slug });
   const [deleteArticle] = useDeleteArticleMutation();
 
-
   const handleDelete = async () => {
     try {
       await deleteArticle(slug).unwrap();
       callNotification('Article was deleted', 'success');
-      setTimeout(()=>{
+      setTimeout(() => {
         navigate('/user');
       }, 2500);
-
     } catch (err: any) {
       if (err?.originalStatus === 403) {
         callNotification(
           'You are not the author to delete this article',
           'error',
         );
-        setTimeout(()=>{
+        setTimeout(() => {
           navigate('/user');
         }, 2500);
-
       }
     }
   };
@@ -98,7 +100,7 @@ const FullArticle: FC = () => {
                       isActive={isLikeButtonActive}
                     />
                   </div>
-                  <span>{favoriteCounter}</span>
+                  <span>{favoriteLikesCount}</span>
                 </div>
                 {data?.article?.tagList.map((tag) => (
                   <span key={tag} className={styles.tag}>
