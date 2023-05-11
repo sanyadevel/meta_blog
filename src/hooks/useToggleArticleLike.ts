@@ -20,7 +20,6 @@ const useToggleArticleLike = (
     (state) => state.userInfo.isUserLoggedIn,
   );
 
-  let toggleLikedArticleResponse;
   const toggleArticleLike = async () => {
     if (!isUserLoggedIn) {
       callNotification(
@@ -35,11 +34,11 @@ const useToggleArticleLike = (
     try {
       if (!isLikeButtonActive) {
         setFavoriteLikesCount((prev) => prev + 1);
-        toggleLikedArticleResponse =  await likeArticleMutation(slug).unwrap();
+        await likeArticleMutation(slug).unwrap();
 
       } else {
         setFavoriteLikesCount((prev) => prev - 1);
-        toggleLikedArticleResponse = await dislikeArticleMutation(slug).unwrap();
+        await dislikeArticleMutation(slug).unwrap();
 
       }
 
