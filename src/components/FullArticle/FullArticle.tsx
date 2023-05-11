@@ -7,13 +7,20 @@ import { ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { useFullArticleQuery } from '../../slices/fullArticlePage';
-import { useAppSelector } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../store';
 import { formatDate } from '../../logics/date/formateDate';
 import Loader from '../Loader';
 import { useDeleteArticleMutation } from '../../slices/deleteArticle';
 import { callNotification } from '../../logics/errors/callLoginErrors';
 import articleStyles from '../Article/Article.module.scss';
 import useToggleArticleLike from '../../hooks/useToggleArticleLike';
+import {
+  updateArticleDescription,
+  updateArticleEditStatus,
+  updateArticleTags,
+  updateArticleText,
+  updateArticleTitle,
+} from '../../slices/articleSlice';
 
 import styles from './FullArticle.module.scss';
 
@@ -22,6 +29,7 @@ const FullArticle: FC = () => {
   const [isPopupLoading, setIsPopupLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const slug = useAppSelector((state) => state.article.slug) || '';
   const favoritesCount = useAppSelector(
@@ -30,6 +38,7 @@ const FullArticle: FC = () => {
   const isFavoritedArticle = useAppSelector(
     (state) => state.article.isFavoritedArticle,
   );
+  const userInfo = useAppSelector((state) => state.userInfo.userDatas);
 
   const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } =
     useToggleArticleLike(slug || '', isFavoritedArticle, favoritesCount || 0);
@@ -81,6 +90,15 @@ const FullArticle: FC = () => {
     setIsOpenPopup(false);
   };
 
+  const editArticle = ()=>{
+    navigate(`/articles/${slug}/edit`);
+
+    dispatch(updateArticleEditStatus(true));
+    dispatch(updateArticleTitle(data?.article?.title || ''));
+    dispatch(updateArticleDescription(data?.article?.description || ''));
+    dispatch(updateArticleText(data?.article?.body || ''));
+    dispatch(updateArticleTags(data?.article?.tagList || ['']));
+  };
   return (
     <>
       {isLoading ? (
@@ -121,13 +139,14 @@ const FullArticle: FC = () => {
                 <img
                   src={data?.article.author.image}
                   className={styles.userAvatar}
+                  alt='Avatar'
                 />
               </div>
             </header>
 
             <div className={styles.descriptionContainer}>
               <p className={styles.description}>{data?.article?.description}</p>
-              {isUserLoggedIn ? (
+              {isUserLoggedIn && userInfo?.username === data?.article?.author?.username ? (
                 <div className={styles.articleEditButtons}>
                   <Popconfirm
                     title="Are you sure to delete this article?"
@@ -144,11 +163,12 @@ const FullArticle: FC = () => {
                       Delete
                     </button>
                   </Popconfirm>
-                  <button className={styles.editButton}>Edit</button>
+                  <button className={styles.editButton} onClick={editArticle}>Edit</button>
                 </div>
               ) : (
                 ''
               )}
+
             </div>
             <main className={styles.markdownContainer}>
               <ReactMarkdown>{data?.article?.body || ''}</ReactMarkdown>

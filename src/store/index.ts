@@ -12,6 +12,7 @@ import getCurrentUser from '../slices/getUser';
 import likeArticle from '../slices/likeAnArticle';
 import dislikeArticle from '../slices/dislikeAnArticle';
 import editUserInfo from '../slices/editUserInfo';
+import editArticle from '../slices/editAnArticle';
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -26,7 +27,8 @@ export const store = configureStore({
       .concat(getCurrentUser.middleware)
       .concat(likeArticle.middleware)
       .concat(dislikeArticle.middleware)
-      .concat(editUserInfo.middleware),
+      .concat(editUserInfo.middleware)
+      .concat(editArticle.middleware),
 
 });
 

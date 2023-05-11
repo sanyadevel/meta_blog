@@ -6,6 +6,11 @@ export interface IArticleState {
   slug?: string;
   isFavoritedArticle:boolean;
   favoritesCount:number;
+  isArticleInEditProcess:boolean;
+  articleTitle:string;
+  articleDescription:string;
+  articleText:string;
+  articleTags:string[];
 }
 
 const initialState: IArticleState = {
@@ -14,6 +19,11 @@ const initialState: IArticleState = {
   slug:'',
   isFavoritedArticle:false,
   favoritesCount: 0,
+  isArticleInEditProcess:false,
+  articleDescription:'',
+  articleTitle:'',
+  articleText:'',
+  articleTags:[''],
 };
 
 const articleSlice = createSlice({
@@ -35,8 +45,23 @@ const articleSlice = createSlice({
     updateFavoritesCount:(state:IArticleState, action:PayloadAction<number>)=>{
       state.favoritesCount = action.payload;
     },
+    updateArticleEditStatus:(state:IArticleState, action:PayloadAction<boolean>)=>{
+      state.isArticleInEditProcess = action.payload;
+    },
+    updateArticleDescription:(state:IArticleState, action :PayloadAction<string>)=>{
+      state.articleDescription = action.payload;
+    },
+    updateArticleText:(state:IArticleState, action :PayloadAction<string>)=>{
+      state.articleText = action.payload;
+    },
+    updateArticleTags:(state:IArticleState, action :PayloadAction<string[]>)=>{
+      state.articleTags = action.payload;
+    },
+    updateArticleTitle:(state:IArticleState, action :PayloadAction<string>)=>{
+      state.articleTitle = action.payload;
+    },
   },
 });
 
-export const { changeArticlePage, getTotalCountPages, updateSlug, updateArticleFavoriteStatus, updateFavoritesCount } = articleSlice.actions;
+export const { changeArticlePage, getTotalCountPages, updateSlug, updateArticleFavoriteStatus, updateFavoritesCount, updateArticleEditStatus, updateArticleDescription, updateArticleText, updateArticleTags, updateArticleTitle } = articleSlice.actions;
 export default articleSlice.reducer;

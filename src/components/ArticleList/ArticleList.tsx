@@ -36,13 +36,12 @@ const ArticlesList: FC<IArticle> = () => {
     (state) => state.article.currentPage,
   ); // get current page from store
 
-  console.log(currentPage);
 
   const { data, error, isLoading } = useGetArticlesQuery({
     limit: 5,
     offset: currentPage,
   });
-  console.log(data, 'data');
+
   const memoizedPageCount = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

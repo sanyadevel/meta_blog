@@ -39,6 +39,7 @@ const App: FC = () => {
               <Route path='/' element={<ArticleList/>} />
               <Route path='/articles/' element={<ArticleList/>} />
               <Route path='/articles/:slug' element={<FullArticle/>}/>
+              <Route path='/articles/:slug/edit' element={<CustomArticle/>}/>
               <Route path="/sign-in" element={<LoginPage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/user" element={<UserPage/>} />

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import * as yup from 'yup';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,6 +8,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 import { useCustomArticleMutation } from '../../slices/postAnArticle';
 import { useAppSelector } from '../../store';
+import { useEditedArticleMutation } from '../../slices/editAnArticle';
 
 import styles from './CustomArticle.module.scss';
 import customArticleStyles from './CustomArticle.module.scss';
@@ -18,14 +19,15 @@ interface IArticleTag {
 
 export interface ICustomArticle {
   title: string;
+  slug?: string;
   description: string;
   body: string;
   tagList: IArticleTag[];
 }
 
-
 const CustomArticle: FC = () => {
   const [api, contextHolder] = notification.useNotification();
+  const slug = useAppSelector((state) => state.article.slug);
 
   const openAntdNotification = (message: string, description: string): void => {
     setTimeout(() => {
@@ -35,7 +37,11 @@ const CustomArticle: FC = () => {
         message,
         description,
         placement: 'topRight',
-        style:{ top: 20, right:10, color: message === 'Congratulations !' ? 'green' : 'red' },
+        style: {
+          top: 20,
+          right: 10,
+          color: message === 'Congratulations !' ? 'green' : 'red',
+        },
         duration: 3,
       });
     }, 1000);
@@ -67,28 +73,66 @@ const CustomArticle: FC = () => {
     ),
   });
 
+  const [editedArticleMutation] = useEditedArticleMutation();
+  const [customArticleMutation] = useCustomArticleMutation();
+  const navigate = useNavigate();
+
+  const isUserLoggedIn = useAppSelector(
+    (state) => state.userInfo.isUserLoggedIn,
+  );
+  const isArticleInEditProcess = useAppSelector(
+    (state) => state.article.isArticleInEditProcess,
+  );
+  const articleDescription = useAppSelector(
+    (state) => state.article.articleDescription,
+  );
+  const articleTitle = useAppSelector((state) => state.article.articleTitle);
+  const articleText = useAppSelector((state) => state.article.articleText);
+  const articleTags = useAppSelector((state) => state.article.articleTags);
+
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm<ICustomArticle>({
     resolver: yupResolver(schema),
     mode: 'onBlur',
+    defaultValues: {
+      tagList: isArticleInEditProcess
+        ? articleTags.map((tag) => ({ value: tag }))
+        : [],
+    },
   });
 
-  const [customArticleMutation] = useCustomArticleMutation();
-  const navigate = useNavigate();
-  const { fields, append, remove } = useFieldArray({ name: 'tagList', control });
+  const { fields, append, remove } = useFieldArray({
+    name: 'tagList',
+    control,
+  });
 
-  const isUserLoggedIn = useAppSelector((state) => state.userInfo.isUserLoggedIn);
+  useEffect(() => {
+    if (!isArticleInEditProcess) {
+      reset({
+        title: '',
+        description: '',
+        body: '',
+        tagList: [],
+      });
+    } else {
+      reset({
+        title: articleTitle,
+        description: articleDescription,
+        body: articleText,
+        tagList: articleTags.map((tag) => ({ value: tag })),
+      });
+    }
+  }, [isArticleInEditProcess]);
 
-  const submitCustomArticle = async (articleData: ICustomArticle) => {
+  const toggleCreateEditArticle = async (articleData: ICustomArticle) => {
     const transformedArticleData = {
       ...articleData,
-      tagList: articleData.tagList.map(tag => tag.value),
+      tagList: articleData.tagList.map((tag) => tag.value),
     };
 
     for (const key of articleData.tagList) {
@@ -97,26 +141,47 @@ const CustomArticle: FC = () => {
       }
     }
     try {
-      await customArticleMutation(transformedArticleData).unwrap();
+      if (isArticleInEditProcess) {
+        await editedArticleMutation({
+          slug: slug || '',
+          newArticle: transformedArticleData,
+        }).unwrap();
+      } else {
+        await customArticleMutation(transformedArticleData).unwrap();
+      }
+      if (isArticleInEditProcess) {
+        openAntdNotification(
+          'Congratulations !',
+          'Post is edited for METABLOG community',
+        );
+      } else {
+        openAntdNotification(
+          'Congratulations !',
+          'A new post is added to METABLOG community',
+        );
+      }
 
-      openAntdNotification(
-        'Congratulations !',
-        'A new post is added to METABLOG community',
-      );
-
-      setTimeout(()=>{
+      setTimeout(() => {
         navigate('/user');
       }, 2500);
     } catch (err) {
-      openAntdNotification('Oops !!!', 'Something went wrong, refresh the page and try again');
+      openAntdNotification(
+        'Oops !!!',
+        'Something went wrong, refresh the page and try again',
+      );
     }
   };
   return (
     <div className={customArticleStyles.main}>
-      {!isUserLoggedIn && <Navigate to='/sign-in' />}
+      {!isUserLoggedIn && <Navigate to="/sign-in" />}
       <div className={customArticleStyles.container}>
-        <h3 className={customArticleStyles.title}>Create new article</h3>
-        <form onSubmit={handleSubmit(submitCustomArticle)}>
+        {isArticleInEditProcess ? (
+          <h3 className={customArticleStyles.title}> Edit Article </h3>
+        ) : (
+          <h3 className={customArticleStyles.title}> Create new article </h3>
+        )}
+
+        <form onSubmit={handleSubmit(toggleCreateEditArticle)}>
           <div className={customArticleStyles.mainInputs}>
             <label htmlFor="title">Title</label>
             <>
@@ -125,6 +190,7 @@ const CustomArticle: FC = () => {
                 type="text"
                 placeholder="Title"
                 {...register('title', { required: true })}
+                defaultValue={articleTitle}
               />
               {errors.title && (
                 <p
@@ -142,6 +208,7 @@ const CustomArticle: FC = () => {
               type="text"
               placeholder="Write a short description"
               {...register('description', { required: true })}
+              defaultValue={articleDescription}
             />
             {errors.description && (
               <p
@@ -159,6 +226,7 @@ const CustomArticle: FC = () => {
               placeholder="Text"
               className={`${customArticleStyles.textArea} ${customArticleStyles.input}`}
               {...register('body', { required: true })}
+              defaultValue={articleText}
             />
             {errors.body && (
               <p

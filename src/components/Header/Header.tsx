@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store';
 import styles from '../UserPage/UserPage.module.scss';
 import { changeUserActiveStatus, uploadUserInfo } from '../../slices/userProfileInfo';
+import { updateArticleEditStatus } from '../../slices/articleSlice';
 
 import headerStyles from './Header.module.scss';
 
@@ -55,7 +56,7 @@ const Header: FC = () => {
         META_BLOG
       </a>
       <div className={headerStyles.childrenContainer}>
-        <Link to="/user/new-article" className={styles.createArticle}>
+        <Link to='user/new-article' className={styles.createArticle} onClick={()=>dispatch(updateArticleEditStatus(false))}>
           Create article
         </Link>
         <Link to="/profile" className={styles.username}>
