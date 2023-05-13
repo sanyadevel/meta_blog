@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -15,8 +15,19 @@ const EditedUser: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+
   const { email = '', image = '', username = '' } = useAppSelector((state) => state.userInfo.userDatas) || {};
+  const isUserLoggedIn = useAppSelector(state=>state.userInfo.isUserLoggedIn);
+
   const [editUserInfoMutation] = useEditUserInfoMutation();
+
+  useEffect(() => {
+    if (!isUserLoggedIn) {
+      navigate('/sign-in');
+    } else {
+      navigate('/profile');
+    }
+  }, [isUserLoggedIn, navigate]);
 
   const schema = yup
     .object({
@@ -39,14 +50,12 @@ const EditedUser: FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-    watch,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     mode: 'onBlur',
   });
 
-  const submitUserEditDetails = async (editedDatas: FormData):Promise<void> => {
+  const submitUserEditedDetails = async (editedDatas: FormData):Promise<void> => {
     const newEditedUserDatas:IEditUserInfo = {
       user:{
         ...editedDatas, bio: '',
@@ -59,6 +68,7 @@ const EditedUser: FC = () => {
 
     setTimeout(()=>{
       navigate('/user');
+
       dispatch(uploadUserInfo({ userDatas: editedUserInforesponse.user }));
     }, 2500);
   };
@@ -72,7 +82,7 @@ const EditedUser: FC = () => {
         <h2 className={signUpPageStyles.title}>Edit profile</h2>
         <form
           className={signUpPageStyles.form}
-          onSubmit={handleSubmit(submitUserEditDetails)}
+          onSubmit={handleSubmit(submitUserEditedDetails)}
         >
           <label className={signUpPageStyles.label}>Username</label>
           <div className={signUpPageStyles.inputWrapper}>
@@ -102,10 +112,10 @@ const EditedUser: FC = () => {
                 ? signUpPageStyles.inputError
                 : signUpPageStyles.input
             }
-            defaultValue={email}
             placeholder="Enter an email address"
-            disabled
             {...register('email', { required: 'Email Address is required' })}
+            defaultValue={email}
+
           />
             {errors.email && (
               <p role="alert" className={signUpPageStyles.inputErrorTextLabel}>

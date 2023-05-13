@@ -4,7 +4,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { notification } from 'antd';
 import './antdNotificationStyles.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useCustomArticleMutation } from '../../slices/postAnArticle';
 import { useAppSelector } from '../../store';
@@ -27,7 +27,19 @@ export interface ICustomArticle {
 
 const CustomArticle: FC = () => {
   const [api, contextHolder] = notification.useNotification();
-  const slug = useAppSelector((state) => state.article.slug);
+
+  const [editedArticleMutation] = useEditedArticleMutation();
+  const [customArticleMutation] = useCustomArticleMutation();
+
+  const navigate = useNavigate();
+
+  const isUserLoggedIn = useAppSelector(
+    (state) => state.userInfo.isUserLoggedIn,
+  );
+  const isArticleInEditProcess = useAppSelector(
+    (state) => state.article.isArticleInEditProcess,
+  );
+  const { slug, articleDescription, articleTitle, articleText, articleTags } = useAppSelector(state=>state.article.articleProp);
 
   const openAntdNotification = (message: string, description: string): void => {
     setTimeout(() => {
@@ -73,23 +85,6 @@ const CustomArticle: FC = () => {
     ),
   });
 
-  const [editedArticleMutation] = useEditedArticleMutation();
-  const [customArticleMutation] = useCustomArticleMutation();
-  const navigate = useNavigate();
-
-  const isUserLoggedIn = useAppSelector(
-    (state) => state.userInfo.isUserLoggedIn,
-  );
-  const isArticleInEditProcess = useAppSelector(
-    (state) => state.article.isArticleInEditProcess,
-  );
-  const articleDescription = useAppSelector(
-    (state) => state.article.articleDescription,
-  );
-  const articleTitle = useAppSelector((state) => state.article.articleTitle);
-  const articleText = useAppSelector((state) => state.article.articleText);
-  const articleTags = useAppSelector((state) => state.article.articleTags);
-
   const {
     register,
     control,
@@ -124,10 +119,18 @@ const CustomArticle: FC = () => {
         title: articleTitle,
         description: articleDescription,
         body: articleText,
-        tagList: articleTags.map((tag) => ({ value: tag })),
+        tagList: articleTags.map((tag:string) => ({ value: tag })),
       });
     }
   }, [isArticleInEditProcess]);
+
+  useEffect(() => {
+    if (!isUserLoggedIn) {
+      navigate('/sign-in');
+    } else {
+      navigate('/user/new-article');
+    }
+  }, [isUserLoggedIn, navigate]);
 
   const toggleCreateEditArticle = async (articleData: ICustomArticle) => {
     const transformedArticleData = {
@@ -140,6 +143,7 @@ const CustomArticle: FC = () => {
         articleData.tagList.filter((tag) => tag.value !== key.value);
       }
     }
+
     try {
       if (isArticleInEditProcess) {
         await editedArticleMutation({
@@ -171,9 +175,9 @@ const CustomArticle: FC = () => {
       );
     }
   };
+
   return (
     <div className={customArticleStyles.main}>
-      {!isUserLoggedIn && <Navigate to="/sign-in" />}
       <div className={customArticleStyles.container}>
         {isArticleInEditProcess ? (
           <h3 className={customArticleStyles.title}> Edit Article </h3>

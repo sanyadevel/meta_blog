@@ -5,7 +5,7 @@ interface Article {
   title: string;
 }
 
-interface ArticlesResponse {
+export interface ArticlesResponse {
   articles: Article[];
 }
 

@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import Heart from 'react-heart';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { IArticle } from '../ArticleList/ArticleList';
 import { formatDate } from '../../logics/date/formateDate';
-import { useAppDispatch } from '../../store';
-import { updateArticleFavoriteStatus, updateFavoritesCount, updateSlug } from '../../slices/articleSlice';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { updateArticle, updateArticleFavoriteStatus, updateFavoritesCount } from '../../slices/articleSlice';
 import useToggleArticleLike from '../../hooks/useToggleArticleLike';
 
 import articleStyles from './Article.module.scss';
@@ -21,17 +21,18 @@ const Article: FC<IArticle> = ({
   slug,
   favoritesCount,
 }) => {
-  const navigate = useNavigate();
+  const navigate:NavigateFunction = useNavigate();
   const dispatch = useAppDispatch();
 
   const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } = useToggleArticleLike(slug || '', favorited || false, favoritesCount || 0);
+  const currentArticle = useAppSelector(state=>state.article.articleProp);
 
-  const getFullArticle = (slugTitle: string): void => {
-    dispatch(updateSlug(slugTitle));
+  const getFullArticle = (slugTitle: string):void => {
+    dispatch(updateArticle({ ...currentArticle, slug: slugTitle }));
     dispatch(updateArticleFavoriteStatus(isLikeButtonActive || false));
     dispatch(updateFavoritesCount(favoriteLikesCount || 0));
 
-    return navigate(`/articles/${slugTitle}`);
+    navigate(`/articles/${slugTitle}`);
   };
 
   return (

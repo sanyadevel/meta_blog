@@ -1,68 +1,88 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Popconfirm } from 'antd';
 import Heart from 'react-heart';
 import './popupAntdStyles.css';
 import { ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 
 import { useFullArticleQuery } from '../../slices/fullArticlePage';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { formatDate } from '../../logics/date/formateDate';
-import Loader from '../Loader';
 import { useDeleteArticleMutation } from '../../slices/deleteArticle';
 import { callNotification } from '../../logics/errors/callLoginErrors';
 import articleStyles from '../Article/Article.module.scss';
 import useToggleArticleLike from '../../hooks/useToggleArticleLike';
 import {
-  updateArticleDescription,
+  updateArticle,
   updateArticleEditStatus,
-  updateArticleTags,
-  updateArticleText,
-  updateArticleTitle,
+  updateArticleFavoriteStatus,
+  updateFavoritesCount,
 } from '../../slices/articleSlice';
+import Loader from '../Loader';
 
 import styles from './FullArticle.module.scss';
 
 const FullArticle: FC = () => {
-  const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
-  const [isPopupLoading, setIsPopupLoading] = useState<boolean>(false);
-
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
   const dispatch = useAppDispatch();
 
-  const slug = useAppSelector((state) => state.article.slug) || '';
+  const { slug } = useParams();
+
+  const { data } = useFullArticleQuery({ slug });
+
+  useEffect(()=>{
+
+    dispatch(updateArticleFavoriteStatus(data?.article?.favorited || false));
+    dispatch(updateFavoritesCount(data?.article?.favoritesCount || 0));
+
+  }, [data]);
+
+
   const favoritesCount = useAppSelector(
     (state) => state.article.favoritesCount,
   );
   const isFavoritedArticle = useAppSelector(
     (state) => state.article.isFavoritedArticle,
   );
+
+  useEffect(()=>{
+    console.log(data);
+  }, [data]);
+
+  useEffect(() => {
+    navigate(`/articles/${slug}`);
+  }, []);
+
+  const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
+  const [isPopupLoading, setIsPopupLoading] = useState<boolean>(false);
+
   const userInfo = useAppSelector((state) => state.userInfo.userDatas);
 
   const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } =
-    useToggleArticleLike(slug || '', isFavoritedArticle, favoritesCount || 0);
+    useToggleArticleLike(slug || '', isFavoritedArticle || false, favoritesCount || 0);
+
 
   const isUserLoggedIn = useAppSelector(
     (state) => state.userInfo.isUserLoggedIn,
   );
+  const currentArticle = useAppSelector((state) => state.article.articleProp);
 
-  const { data, error, isLoading } = useFullArticleQuery({ slug });
   const [deleteArticle] = useDeleteArticleMutation();
 
   const handleDelete = async () => {
     try {
-      await deleteArticle(slug).unwrap();
+      await deleteArticle(slug || '').unwrap();
+
       callNotification('Article was deleted', 'success');
+
       setTimeout(() => {
         navigate('/user');
       }, 2500);
     } catch (err: any) {
       if (err?.originalStatus === 403) {
-        callNotification(
-          'You are not the author to delete this article',
-          'error',
-        );
+        callNotification('Please refresh the page or try later', 'error');
+
         setTimeout(() => {
           navigate('/user');
         }, 2500);
@@ -90,18 +110,24 @@ const FullArticle: FC = () => {
     setIsOpenPopup(false);
   };
 
-  const editArticle = ()=>{
+  const editArticle = () => {
     navigate(`/articles/${slug}/edit`);
 
     dispatch(updateArticleEditStatus(true));
-    dispatch(updateArticleTitle(data?.article?.title || ''));
-    dispatch(updateArticleDescription(data?.article?.description || ''));
-    dispatch(updateArticleText(data?.article?.body || ''));
-    dispatch(updateArticleTags(data?.article?.tagList || ['']));
+    dispatch(
+      updateArticle({
+        ...currentArticle,
+        articleTitle: data?.article?.title || '',
+        articleDescription: data?.article?.description || '',
+        articleText: data?.article?.body || '',
+        articleTags: data?.article?.tagList || [''],
+      }),
+    );
   };
+
   return (
     <>
-      {isLoading ? (
+      {data === undefined ? (
         <Loader />
       ) : (
         <div className={styles.main}>
@@ -139,14 +165,15 @@ const FullArticle: FC = () => {
                 <img
                   src={data?.article.author.image}
                   className={styles.userAvatar}
-                  alt='Avatar'
+                  alt="Avatar"
                 />
               </div>
             </header>
 
             <div className={styles.descriptionContainer}>
               <p className={styles.description}>{data?.article?.description}</p>
-              {isUserLoggedIn && userInfo?.username === data?.article?.author?.username ? (
+              {isUserLoggedIn &&
+              userInfo?.username === data?.article?.author?.username ? (
                 <div className={styles.articleEditButtons}>
                   <Popconfirm
                     title="Are you sure to delete this article?"
@@ -163,12 +190,13 @@ const FullArticle: FC = () => {
                       Delete
                     </button>
                   </Popconfirm>
-                  <button className={styles.editButton} onClick={editArticle}>Edit</button>
+                  <button className={styles.editButton} onClick={editArticle}>
+                    Edit
+                  </button>
                 </div>
-              ) : (
-                ''
-              )}
-
+                ) : (
+                  ''
+                )}
             </div>
             <main className={styles.markdownContainer}>
               <ReactMarkdown>{data?.article?.body || ''}</ReactMarkdown>

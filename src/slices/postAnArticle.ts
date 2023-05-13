@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-
 export interface ICustomArticleResponse {
   [key: string]: {
     title: string;

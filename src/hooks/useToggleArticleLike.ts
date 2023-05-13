@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useLikeArticleMutation } from '../slices/likeAnArticle';
 import { useDislikeArticleMutation } from '../slices/dislikeAnArticle';
@@ -12,6 +12,15 @@ const useToggleArticleLike = (
 ) => {
   const [isLikeButtonActive, setIsLikeButtonActive] = useState<boolean>(isFavorited);
   const [favoriteLikesCount, setFavoriteLikesCount] = useState<number>(favoritesCount);
+
+  useEffect(() => {
+    setIsLikeButtonActive(isFavorited);
+  }, [isFavorited]);
+
+  useEffect(() => {
+    setFavoriteLikesCount(favoritesCount);
+  }, [favoritesCount]);
+
 
   const [likeArticleMutation] = useLikeArticleMutation();
   const [dislikeArticleMutation] = useDislikeArticleMutation();

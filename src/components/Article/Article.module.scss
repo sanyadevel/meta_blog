@@ -11,14 +11,14 @@ $black-color: rgba(0, 0, 0, 0.5);
 
 .container {
   width: 60%;
-  height:180px;
+  height: 180px;
   margin: 28px auto;
   background-color: $container-white-color;
   padding: 20px 23px;
   display: flex;
 }
-.main{
-  width:78%
+.main {
+  width: 78%;
 }
 
 .title {
@@ -46,7 +46,7 @@ $black-color: rgba(0, 0, 0, 0.5);
   margin: 12px 0 12px 0;
 }
 
-.description{
+.description {
   width: 80%;
 }
 .tag {
@@ -68,8 +68,8 @@ $black-color: rgba(0, 0, 0, 0.5);
   font-size: 22px;
   line-height: 28px;
 }
-.personInfo{
-  width:170px;
+.personInfo {
+  width: 170px;
 }
 .birthDate {
   display: inline-block;
@@ -79,6 +79,5 @@ $black-color: rgba(0, 0, 0, 0.5);
   height: 56px;
   width: 56px;
   border-radius: 50%;
-  //margin-left: 30px;
   margin-left: 10%;
 }

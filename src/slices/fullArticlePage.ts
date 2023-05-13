@@ -29,9 +29,14 @@ const getFullArticle = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
     fullArticle: builder.query<IFullArticleResponse, IFullArticle>({
-      query: ({ slug }) => {
-        return `articles/${slug}`;
-      },
+      query: ({ slug }) => ({
+        url :`articles/${slug}`,
+        method:'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${localStorage.getItem('token')}`, // Replace with your JWT token
+        },
+      }),
     }),
   }),
 });

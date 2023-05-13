@@ -22,7 +22,6 @@ const initialState: IUserInfo = {
   isUserLoggedIn: false,
 };
 
-
 const userProfileInfo = createSlice({
   name: 'userProfileInfo',
   initialState,

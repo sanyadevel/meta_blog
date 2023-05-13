@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export interface UserRegistrationnDetails {
+export interface UserRegistrationDetails {
   [key: string]: {
     username: string;
     email: string;
@@ -8,6 +8,7 @@ export interface UserRegistrationnDetails {
     confirmPassword?: string;
   }
 }
+
 export interface UserRegistrationResponse {
   user: {
     email: string;
@@ -22,7 +23,7 @@ const registerUser = createApi({
   reducerPath: 'registerUser',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blog.kata.academy/api/' }),
   endpoints: (builder) => ({
-    registerUser: builder.mutation<UserRegistrationResponse, UserRegistrationnDetails>({
+    registerUser: builder.mutation<UserRegistrationResponse, UserRegistrationDetails>({
       query: (user) => {
         return {
           url: 'users',

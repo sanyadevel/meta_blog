@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -9,7 +9,7 @@ import signUpPageStyles from '../SignUpPage/SignUpPage.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import { useLoginUserMutation, UserLoginDetails } from '../../slices/userLogin';
 import { callNotification } from '../../logics/errors/callLoginErrors';
-import { useAppDispatch, useAppSelector } from '../../store';
+import { useAppDispatch } from '../../store';
 import { changeUserActiveStatus, uploadUserInfo } from '../../slices/userProfileInfo';
 import { emailRegex } from '../../variables/emailRegex';
 
@@ -19,8 +19,6 @@ const LoginPage: FC = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const { pathname } = location;
 
   const [isLoginButtonDisabled, setIsLoginButtonDisabled] =
     useState<boolean>(true);
@@ -34,7 +32,6 @@ const LoginPage: FC = () => {
   }, [isLoginError]);
 
   const [loginUserMutation] = useLoginUserMutation();
-  const userInfo = useAppSelector((state) => state.userInfo.userDatas);
 
   const schema = yup
     .object({

@@ -16,12 +16,14 @@ $black-color: #000;
   -moz-box-shadow: $box-shadow-color;
   box-shadow: $box-shadow-color;
 }
-.childrenContainer{
+
+.childrenContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 30%;
 }
+
 @mixin listDecorationItem($borderColor) {
   border: 1.5px solid $borderColor;
   border-radius: 5px;
@@ -72,6 +74,6 @@ $black-color: #000;
 
   &__logoutBackground {
     @include listDecorationItem($black-color);
-    cursor:pointer;
+    cursor: pointer;
   }
 }
