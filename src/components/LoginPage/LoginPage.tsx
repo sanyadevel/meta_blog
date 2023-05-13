@@ -29,6 +29,7 @@ const LoginPage: FC = () => {
     if (isLoginError) {
       callNotification('Email or password is incorrect', 'error');
     }
+    document.title = 'Page Error';
   }, [isLoginError]);
 
   const [loginUserMutation] = useLoginUserMutation();

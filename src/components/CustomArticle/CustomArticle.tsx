@@ -39,6 +39,16 @@ const CustomArticle: FC = () => {
   const isArticleInEditProcess = useAppSelector(
     (state) => state.article.isArticleInEditProcess,
   );
+
+  useEffect(()=>{
+    if (isArticleInEditProcess) {
+      document.title = 'Edit article';
+    } else {
+      document.title = 'Create new article';
+    }
+
+  }, []);
+
   const { slug, articleDescription, articleTitle, articleText, articleTags } = useAppSelector(state=>state.article.articleProp);
 
   const openAntdNotification = (message: string, description: string): void => {
