@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import page404 from '../../assets/images/404.jpg';
 
 import styles from './PageIsNotFound.module.scss';
 
 const PageIsNotFound = () => {
+  useEffect(()=>{
+    document.title = 'Oops!, Page is not found !';
+  }, []);
+
   return (
     <div className={styles.container}>
       <img src={page404} alt="page is not found" className={styles.img} />

@@ -49,6 +49,7 @@ const FullArticle: FC = () => {
 
   useEffect(() => {
     navigate(`/articles/${slug}`);
+    document.title = `Article ${slug}`;
   }, []);
 
   const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);

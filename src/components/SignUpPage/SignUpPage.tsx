@@ -35,6 +35,7 @@ const SignUpPage: FC = () => {
     if (pathname === '/sign-up') {
       dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
       localStorage.removeItem('token');
+      document.title = 'SignUp Page';
     }
   }, [pathname]);
 

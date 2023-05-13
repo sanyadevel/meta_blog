@@ -22,6 +22,7 @@ const Header: FC = () => {
     dispatch(changeUserActiveStatus({ isUserLoggedIn: false }));
 
     localStorage.removeItem('token');
+    document.title = 'META_BLOG';
   };
 
   useEffect(() => {

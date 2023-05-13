@@ -24,8 +24,10 @@ const EditedUser: FC = () => {
   useEffect(() => {
     if (!isUserLoggedIn) {
       navigate('/sign-in');
+      document.title = 'Login Page';
     } else {
       navigate('/profile');
+      document.title = `${username} edit profile`;
     }
   }, [isUserLoggedIn, navigate]);
 
