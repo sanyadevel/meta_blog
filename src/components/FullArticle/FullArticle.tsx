@@ -46,9 +46,6 @@ const FullArticle: FC = () => {
     (state) => state.article.isFavoritedArticle,
   );
 
-  useEffect(()=>{
-    console.log(data);
-  }, [data]);
 
   useEffect(() => {
     navigate(`/articles/${slug}`);

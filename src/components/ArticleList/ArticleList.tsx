@@ -37,7 +37,7 @@ const ArticlesList: FC<IArticle> = () => {
   ); // get current page from store
 
 
-  const { data, error } = useGetArticlesQuery({
+  const { data, error, status } = useGetArticlesQuery({
     limit: 5,
     offset: currentPage,
   });
@@ -67,7 +67,7 @@ const ArticlesList: FC<IArticle> = () => {
 
   return (
     <div>
-      {!data && <Loader />}
+      {status === 'pending' && <Loader />}
       {data?.articles.map((article: IArticle) => (
         <Article key={article.slug} {...article}/>
       ))}
