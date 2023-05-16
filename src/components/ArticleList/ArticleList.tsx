@@ -75,7 +75,7 @@ const ArticlesList: FC<IArticle> = () => {
         <Article key={article.slug} {...article}/>
       ))}
       <Pagination
-        defaultCurrent={Number(page) || 1}
+        current={Number(page)}
         total={totalCountPages * 10 }
         size="default"
         style={{ textAlign: 'center', marginTop: 60, paddingBottom: 60 }}
