@@ -1,11 +1,12 @@
-* {
-  font-family: "Inter", sans-serif;
-}
-
 $green-color: hsl(139.6153846154deg 59.0909090909% 34.5098039216%);
 $green-hover-color: hsl(139.4117647059deg 58.6206896552% 54.5098039216%);
 $white-color: white;
 $black-color: black;
+$gri-hover-color: #858585;
+
+* {
+  font-family: "Inter", sans-serif;
+}
 
 .container {
   height: auto;
@@ -51,7 +52,8 @@ $black-color: black;
   cursor: pointer;
 
   &:hover {
-    border-bottom: 1px solid $black-color;
+    color: $gri-hover-color;
+    transition: 0.4s ease-in-out;
   }
 }
 

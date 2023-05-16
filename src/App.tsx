@@ -20,7 +20,6 @@ const App: FC = () => {
 
   const token = localStorage.getItem('token');
   const userInfo = useAppSelector((state) => state.userInfo.userDatas);
-
   const { data: userData } = useCurrentUserQuery({});
 
 
@@ -37,7 +36,7 @@ const App: FC = () => {
              <Header/>
             <Routes>
               <Route path='/' element={<ArticleList/>} />
-              <Route path='/articles/' element={<ArticleList/>} />
+              <Route path='/articles/page/:page' element={<ArticleList/>} />
               <Route path='/articles/:slug' element={<FullArticle/>}/>
               <Route path='/articles/:slug/edit' element={<CustomArticle/>}/>
               <Route path="/sign-in" element={<LoginPage />} />

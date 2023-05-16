@@ -5,6 +5,7 @@ $login-button-hover-color:hsl( 228deg 12.1951219512% 40.1960784314% );
 $white-color: #fff;
 $box-shadow-color: 0px 7px 13px -6px rgba(148, 148, 148, 1);
 $black-color: #000;
+$gri-hover-color: #858585;
 
 .items {
   display: flex;
@@ -54,7 +55,7 @@ $black-color: #000;
 
   &:hover {
     cursor: pointer;
-    color: #858585;
+    color: $gri-hover-color;
   }
 
   &__signupBackground {

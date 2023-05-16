@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import { Pagination } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useGetArticlesQuery } from '../../slices/getArticlesFromApi';
 import Article from '../Article';
 import { AppDispatch, useAppDispatch, useAppSelector } from '../../store';
-import { changeArticlePage, getTotalCountPages } from '../../slices/articleSlice';
+import { getTotalCountPages } from '../../slices/articleSlice';
 import Loader from '../Loader';
 
 export interface IArticle {
@@ -27,19 +28,21 @@ export interface IArticle {
 
 const ArticlesList: FC<IArticle> = () => {
   const dispatch: AppDispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { page } = useParams();
 
   const totalCountPages = useAppSelector(
     (state) => state.article.totalCountPages,
   );
 
-  const currentPage: number | undefined = useAppSelector(
-    (state) => state.article.currentPage,
-  ); // get current page from store
-
+  useEffect(()=>{
+    navigate(`/articles/page/${page || 1}`);
+  }, [page]);
 
   const { data, error, status } = useGetArticlesQuery({
     limit: 5,
-    offset: currentPage,
+    offset: (Number(page) - 1 ) * 5 || 1,
   });
 
   const memoizedPageCount = useMemo(() => {
@@ -72,12 +75,12 @@ const ArticlesList: FC<IArticle> = () => {
         <Article key={article.slug} {...article}/>
       ))}
       <Pagination
-        defaultCurrent={1}
+        defaultCurrent={Number(page) || 1}
         total={totalCountPages * 10 }
         size="default"
         style={{ textAlign: 'center', marginTop: 60, paddingBottom: 60 }}
         showSizeChanger={false}
-        onChange={(page: number) => dispatch(changeArticlePage((page - 1 ) * 5 ))} // dispatch the page number
+        onChange={(currentPaginationPage:number) =>  navigate(`/articles/page/${currentPaginationPage}`)} // refresh domain with the page number
       />
     </div>
   );

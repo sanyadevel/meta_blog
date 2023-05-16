@@ -9,7 +9,6 @@ interface IArticleProp {
 }
 
 export interface IArticleState {
-  currentPage?: number;
   totalCountPages: number;
   isFavoritedArticle: boolean;
   favoritesCount: number;
@@ -18,7 +17,6 @@ export interface IArticleState {
 }
 
 const initialState: IArticleState = {
-  currentPage: 0,
   totalCountPages: 50,
   isFavoritedArticle: false,
   favoritesCount: 0,
@@ -36,12 +34,6 @@ const articleSlice = createSlice({
   name: 'articlePagination',
   initialState,
   reducers: {
-    changeArticlePage: (
-      state: IArticleState,
-      action: PayloadAction<number>,
-    ) => {
-      state.currentPage = action.payload;
-    },
     getTotalCountPages: (
       state: IArticleState,
       action: PayloadAction<number>,
@@ -76,7 +68,6 @@ const articleSlice = createSlice({
 });
 
 export const {
-  changeArticlePage,
   getTotalCountPages,
   updateArticleFavoriteStatus,
   updateFavoritesCount,

@@ -1,6 +1,7 @@
 $container-white-color: #fff;
 $title-color: rgba(24, 144, 255, 1);
 $black-color: rgba(0, 0, 0, 0.5);
+$title-hover-color:rgb(0, 114, 232);
 
 * {
   font-family: "Inter", sans-serif;
@@ -10,15 +11,18 @@ $black-color: rgba(0, 0, 0, 0.5);
 }
 
 .container {
-  width: 60%;
-  height: 180px;
+  max-width: 1200px;
+  min-height: 180px;
+  width: 90%;
   margin: 28px auto;
   background-color: $container-white-color;
   padding: 20px 23px;
   display: flex;
+  flex-wrap: wrap; // добавлено, чтобы разрешить перенос элементов на новую строку, если они не помещаются
 }
+
 .main {
-  width: 78%;
+  width: 68%;
 }
 
 .title {
@@ -30,11 +34,16 @@ $black-color: rgba(0, 0, 0, 0.5);
   line-height: 28px;
   width: 85%;
   cursor: pointer;
+
+  &:hover{
+    color: $title-hover-color;
+  }
 }
 
 .header {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .likeBtn {
@@ -49,6 +58,7 @@ $black-color: rgba(0, 0, 0, 0.5);
 .description {
   width: 80%;
 }
+
 .tag {
   border: 1px solid $black-color;
   padding: 3px 5px;
@@ -57,20 +67,24 @@ $black-color: rgba(0, 0, 0, 0.5);
 }
 
 .legend {
-  width: 22%;
   display: flex;
+  width: 22%;
 }
 
 .personName {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-weight: 400;
   font-size: 22px;
   line-height: 28px;
+  text-align: start;
+  width: 250px !important;
+  overflow: hidden; // предотвращаем переполнение
+  white-space: nowrap; // предотвращаем перенос строки
+  text-overflow: ellipsis; // добавляем многоточие в конце, если текст не помещается
 }
-.personInfo {
-  width: 170px;
-}
+
+
 .birthDate {
   display: inline-block;
 }
@@ -79,5 +93,15 @@ $black-color: rgba(0, 0, 0, 0.5);
   height: 56px;
   width: 56px;
   border-radius: 50%;
-  margin-left: 10%;
+  margin-left: 50px;
+}
+
+@media (max-width: 768px) {
+  .main {
+    flex: 1 0 100%; // на маленьких экранах занимает 100% ширины
+  }
+
+  .legend {
+    flex: 1 0 100%; // на маленьких экранах занимает 100% ширины
+  }
 }

@@ -21,13 +21,14 @@ const Article: FC<IArticle> = ({
   slug,
   favoritesCount,
 }) => {
-  const navigate:NavigateFunction = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } = useToggleArticleLike(slug || '', favorited || false, favoritesCount || 0);
-  const currentArticle = useAppSelector(state=>state.article.articleProp);
+  const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } =
+    useToggleArticleLike(slug || '', favorited || false, favoritesCount || 0);
+  const currentArticle = useAppSelector((state) => state.article.articleProp);
 
-  const getFullArticle = (slugTitle: string):void => {
+  const getFullArticle = (slugTitle: string): void => {
     dispatch(updateArticle({ ...currentArticle, slug: slugTitle }));
     dispatch(updateArticleFavoriteStatus(isLikeButtonActive || false));
     dispatch(updateFavoritesCount(favoriteLikesCount || 0));
@@ -44,31 +45,38 @@ const Article: FC<IArticle> = ({
             className={articleStyles.title}
             onClick={() => getFullArticle(slug || '')}
           >
-            {title?.split(' ').slice(0, 13).join(' ')}
+            {title && title.split(' ').slice(0, 13).join(' ')}
           </h3>
           <div className={articleStyles.likeBtn}>
             <Heart
               isActive={isLikeButtonActive}
-              onClick={() =>toggleArticleLike()}
+              onClick={() => toggleArticleLike()}
               animationScale={1.1}
             />
           </div>
           <span>{favoriteLikesCount}</span>
         </div>
         <div className={articleStyles.tags}>
-          {tagList?.map((tag) => (
-            <span className={articleStyles.tag} key={crypto.randomUUID()}>
-              {tag.split(' ').slice(0, 17).join(' ')}
-            </span>
-          ))}
+          {tagList &&
+            tagList?.map((tag) => {
+              if (tag && tag.length > 0) {
+                return (
+                  <span className={articleStyles.tag} key={crypto.randomUUID()}>
+                    {tag && tag.split(' ').slice(0, 17).join(' ')}
+                  </span>
+                );
+              }
+            })}
         </div>
         <p className={articleStyles.description}>
-          {description?.split(' ').slice(0, 58).join(' ')}
+          {description && description?.split(' ').slice(0, 58).join(' ')}
         </p>
       </main>
       <legend className={articleStyles.legend}>
         <div className={articleStyles.personInfo}>
-          <span className={articleStyles.personName}>{author?.username}</span>
+          <span className={articleStyles.personName}>
+            {author?.username.slice(0, 20)}
+          </span>
           <span className={articleStyles.birthDate}>
             {formatDate(createdAt)}
           </span>

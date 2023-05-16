@@ -11,7 +11,7 @@ export interface ArticlesResponse {
 
 interface QueryParams {
   limit: number;
-  offset?: number;
+  offset: number;
 }
 
 export const articlesApi = createApi({

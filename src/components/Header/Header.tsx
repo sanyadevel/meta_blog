@@ -61,7 +61,7 @@ const Header: FC = () => {
           Create article
         </Link>
         <Link to="/profile" className={styles.username}>
-          {userInfo?.username}
+          {userInfo?.username?.slice(0, 20)}
         </Link>
 
         <Link to="/profile">
