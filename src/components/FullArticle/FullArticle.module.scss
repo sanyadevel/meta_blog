@@ -5,6 +5,7 @@ $blue-color: #1890ff;
 $base-font-size: 16px;
 $base-line-height: 1.5;
 $base-margin: 1em;
+$black-color: black;
 
 * {
   font-family: "Inter", sans-serif;
@@ -37,7 +38,8 @@ header {
   font-weight: 400;
   padding: 0;
   line-height: 28px;
-  width: 95%;
+  //width: 95%;
+  min-width: 200px;
   color: $blue-color;
 }
 
@@ -83,6 +85,18 @@ header {
   height: 60px;
   border-radius: 50%;
   margin-left: 20px;
+  border:1px solid gray;
+}
+
+.likeBtn{
+  width: 25px;
+  margin: 5px 10px 0 30px;
+}
+
+.likeCounter{
+  font-size: 17px;
+  text-align: center;
+  margin-top: 1.5px;
 }
 
 .descriptionContainer {

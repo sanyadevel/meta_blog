@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import { formatDate } from '../../logics/date/formateDate';
 import { useDeleteArticleMutation } from '../../slices/deleteArticle';
 import { callNotification } from '../../logics/errors/callLoginErrors';
-import articleStyles from '../Article/Article.module.scss';
 import useToggleArticleLike from '../../hooks/useToggleArticleLike';
 import {
   updateArticle,
@@ -68,7 +67,7 @@ const FullArticle: FC = () => {
 
   const [deleteArticle] = useDeleteArticleMutation();
 
-  const handleDelete = async () => {
+  const handleDeleteArticle = async () => {
     try {
       await deleteArticle(slug || '').unwrap();
 
@@ -98,7 +97,7 @@ const FullArticle: FC = () => {
     setTimeout((): void => {
       setIsOpenPopup(false);
 
-      handleDelete();
+      handleDeleteArticle();
 
       setIsPopupLoading(false);
     }, 2000);
@@ -135,14 +134,14 @@ const FullArticle: FC = () => {
               <div>
                 <div className={styles.headerFirstPart}>
                   <h4 className={styles.title}>{data?.article?.title}</h4>
-                  <div className={articleStyles.likeBtn}>
+                  <div className={styles.likeBtn}>
                     <Heart
                       animationScale={1.1}
                       onClick={() => toggleArticleLike()}
                       isActive={isLikeButtonActive}
                     />
                   </div>
-                  <span>{favoriteLikesCount}</span>
+                  <span className={styles.likeCounter}>{favoriteLikesCount}</span>
                 </div>
                 {data?.article?.tagList.map((tag) => (
                   <span key={tag} className={styles.tag}>
@@ -161,8 +160,8 @@ const FullArticle: FC = () => {
                 </div>
 
                 <img
-                  src={data?.article.author.image}
                   className={styles.userAvatar}
+                  src={data?.article.author.image}
                   alt="Avatar"
                 />
               </div>
@@ -179,7 +178,7 @@ const FullArticle: FC = () => {
                     onConfirm={handleOk}
                     okButtonProps={{ loading: isPopupLoading }}
                     onCancel={handleCancel}
-                    className="ant-popover-content"
+                    // className="ant-popover-content"
                   >
                     <button
                       className={styles.deleteButton}

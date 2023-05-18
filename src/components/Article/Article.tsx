@@ -8,6 +8,7 @@ import { formatDate } from '../../logics/date/formateDate';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { updateArticle, updateArticleFavoriteStatus, updateFavoritesCount } from '../../slices/articleSlice';
 import useToggleArticleLike from '../../hooks/useToggleArticleLike';
+import fullArticlesStyles from '../FullArticle/FullArticle.module.scss';
 
 import articleStyles from './Article.module.scss';
 
@@ -26,6 +27,7 @@ const Article: FC<IArticle> = ({
 
   const { toggleArticleLike, isLikeButtonActive, favoriteLikesCount } =
     useToggleArticleLike(slug || '', favorited || false, favoritesCount || 0);
+
   const currentArticle = useAppSelector((state) => state.article.articleProp);
 
   const getFullArticle = (slugTitle: string): void => {
@@ -35,6 +37,7 @@ const Article: FC<IArticle> = ({
 
     navigate(`/articles/${slugTitle}`);
   };
+
 
   return (
     <div className={articleStyles.container}>
@@ -54,12 +57,12 @@ const Article: FC<IArticle> = ({
               animationScale={1.1}
             />
           </div>
-          <span>{favoriteLikesCount}</span>
+          <span className={fullArticlesStyles.likeCounter}>{favoriteLikesCount}</span>
         </div>
         <div className={articleStyles.tags}>
           {tagList &&
             tagList?.map((tag) => {
-              if (tag && tag.length > 0) {
+              if (tag && tag !== ' '.trim()) {
                 return (
                   <span className={articleStyles.tag} key={crypto.randomUUID()}>
                     {tag && tag.split(' ').slice(0, 17).join(' ')}
@@ -82,9 +85,9 @@ const Article: FC<IArticle> = ({
           </span>
         </div>
         <img
-          src={author?.image}
-          alt="avatar"
           className={articleStyles.personAvatar}
+          src={author?.image || 'https://static.productionready.io/images/smiley-cyrus.jpg'}
+          alt="Avatar"
         />
       </legend>
     </div>

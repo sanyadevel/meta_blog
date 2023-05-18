@@ -90,8 +90,9 @@ $title-hover-color:rgb(0, 114, 232);
 }
 
 .personAvatar {
-  height: 56px;
-  width: 56px;
+  height: 60px;
+  width: 60px;
+  border:1px solid gray;
   border-radius: 50%;
   margin-left: 50px;
 }

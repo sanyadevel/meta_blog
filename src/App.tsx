@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useLayoutEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import LoginPage from './components/LoginPage';
@@ -21,7 +21,7 @@ const App: FC = () => {
   const token = localStorage.getItem('token');
   const userInfo = useAppSelector((state) => state.userInfo.userDatas);
   const { data: userData } = useCurrentUserQuery({});
-
+  
 
   useEffect(() => {
     if (token && !userInfo?.token) {

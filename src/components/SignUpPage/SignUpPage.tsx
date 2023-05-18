@@ -39,7 +39,7 @@ const SignUpPage: FC = () => {
     }
   }, [pathname]);
 
-  const schema = yup
+  const signUpSchema = yup
     .object({
       userName: yup.string().min(3).max(20).required(),
       email: yup
@@ -62,11 +62,11 @@ const SignUpPage: FC = () => {
     formState: { errors },
     reset,
   } = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(signUpSchema),
     mode: 'onBlur',
   });
 
-  type FormData = yup.InferType<typeof schema>;
+  type FormData = yup.InferType<typeof signUpSchema>;
 
   const submitRegistrationDatas = async (data: FormData): Promise<void> => {
     const userDatas = {

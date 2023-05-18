@@ -34,7 +34,7 @@ const LoginPage: FC = () => {
 
   const [loginUserMutation] = useLoginUserMutation();
 
-  const schema = yup
+  const loginSchema = yup
     .object({
       email: yup
         .string()
@@ -53,7 +53,7 @@ const LoginPage: FC = () => {
     reset,
     watch,
   } = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginSchema),
     mode: 'onBlur',
   });
 
@@ -102,7 +102,7 @@ const LoginPage: FC = () => {
     reset();
   };
 
-  type FormData = yup.InferType<typeof schema>;
+  type FormData = yup.InferType<typeof loginSchema>;
 
   return (
     <div className={loginPageStyles.main}>

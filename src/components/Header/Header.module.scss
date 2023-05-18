@@ -24,8 +24,8 @@ $gri-hover-color: #858585;
 .childrenContainer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 30%;
+  justify-content: space-between;
 }
 
 @mixin listDecorationItem($borderColor, $hoverColor, $hoverBgColor, $textColor) {
