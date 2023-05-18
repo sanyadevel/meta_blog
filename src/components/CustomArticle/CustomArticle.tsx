@@ -69,7 +69,7 @@ const CustomArticle: FC = () => {
     }, 1000);
   };
 
-  const schema = yup.object({
+  const customSchema = yup.object({
     title: yup
       .string()
       .min(2)
@@ -102,7 +102,7 @@ const CustomArticle: FC = () => {
     formState: { errors },
     reset,
   } = useForm<ICustomArticle>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(customSchema),
     mode: 'onBlur',
     defaultValues: {
       tagList: isArticleInEditProcess
