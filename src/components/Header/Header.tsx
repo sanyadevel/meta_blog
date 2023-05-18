@@ -27,7 +27,7 @@ const Header: FC = () => {
 
   useEffect(() => {
     if (!isUserLoggedIn) {
-      navigate('/articles');
+      navigate('/');
     }
   }, [isUserLoggedIn]);
 
@@ -75,7 +75,7 @@ const Header: FC = () => {
         />
         </Link>
         <a
-          href="/articles"
+          href="/"
           className={`${
             (headerStyles.listDecoration,
             headerStyles.listDecoration__logoutBackground)
