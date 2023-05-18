@@ -178,7 +178,6 @@ const FullArticle: FC = () => {
                     onConfirm={handleOk}
                     okButtonProps={{ loading: isPopupLoading }}
                     onCancel={handleCancel}
-                    // className="ant-popover-content"
                   >
                     <button
                       className={styles.deleteButton}
