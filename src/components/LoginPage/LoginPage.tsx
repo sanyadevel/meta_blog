@@ -50,7 +50,6 @@ const LoginPage: FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
   } = useForm<FormData>({
     resolver: yupResolver(loginSchema),
@@ -99,7 +98,6 @@ const LoginPage: FC = () => {
         }, 150);
       }
     }
-    reset();
   };
 
   type FormData = yup.InferType<typeof loginSchema>;
